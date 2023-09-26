@@ -42,7 +42,7 @@ Using the shortcuts in the shown cheatsheet table, the player can
 
 - Typing `H` while the cursor is on a number, e.g. 2, will **highlight** all the 2s in the matrix.
 
-  Typing `H` again will **undo the highlighting**:
+    Typing `H` again will **undo the highlighting**:
 
 ![4.png](screenshots/4.png)
 
@@ -54,12 +54,13 @@ Using the shortcuts in the shown cheatsheet table, the player can
 
 ![6.png](screenshots/6.png)
 
-While the `M`option **returns to the `Main Menu`**, and the `S` option **saves the game**, the `Q` option **prints the solution and exits**:
+While the `M` option **returns to the `Main Menu`**, and the `S` option **saves the game**, the `Q` option **prints the solution and exits**:
 
 ![9.png](screenshots/9.png)
+
 - The user can also **Undo** or **Redo** their entries with the `z` or `Z` option respectively.
 
-Back in the `Main Menu`, the player can also
+    Back in the `Main Menu`, the player can also
 
 - **Load a previously saved game** with the `l` option
 
@@ -73,7 +74,7 @@ Back in the `Main Menu`, the player can also
 
 ![7.png](screenshots/7.png)
 
-#### Configure
+### Configure
 
 The configuration is kept in the `$HOME/.config/tui-sudoku/tui-sudoku.config` file.
 
@@ -106,7 +107,7 @@ _none, rotate90, rotate180, mirror, flip, or random_
 - `PREFERRED_EDITOR` variable configures the editor you wish to use with the `c` (configure) option.
 
 
-#### Dependencies
+### Dependencies
 
 [qqwing](https://qqwing.com/download.html) is the main dependency of this program, as it is the command line sudoku generator.
 
