@@ -65,7 +65,7 @@ Back in the `Main Menu`, the player can also
 
 ![8.png](screenshots/8.png)
 
-- **Configure** preferred _colors_, preferred _text editor_ and _puzzle symmentry_ with the `c` option
+- **Configure** preferred _colors_, preferred _text editor_ and _puzzle symmetry_ with the `c` option
 
 ![10.png](screenshots/10.png)
 
@@ -102,6 +102,8 @@ _none, rotate90, rotate180, mirror, flip, or random_
 - `PREFFERED_PNG` variable defines the png that shows in the notifications. These images are located in the `$HOME/.cache/tui-sudoku/png/` directory.
 
  ![11.png](screenshots/11.png)
+
+- `PREFERRED_EDITOR` variable configures the editor you wish to use with the `c` (configure) option.
 
 
 ### INSTALL
