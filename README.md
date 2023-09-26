@@ -106,6 +106,22 @@ _none, rotate90, rotate180, mirror, flip, or random_
 - `PREFERRED_EDITOR` variable configures the editor you wish to use with the `c` (configure) option.
 
 
+#### Dependencies
+
+[qqwing](https://qqwing.com/download.html) is the main dependency of this program, as it is the command line sudoku generator.
+
+[fzf](https://github.com/junegunn/fzf) is used in `Load` and `Level` selection functions.
+
+[lolcat](https://github.com/busyloop/lolcat) is used to give more color to the `Top Ten` presentation.
+
+In Debian based OSs, in order to install these dependencies:
+
+```
+sudo apt install qqwing fzf lolcat
+```
+
+
+
 ### INSTALL
 
 Clone the repo, and change directory into the program's directory:
@@ -126,21 +142,6 @@ mkdir -p  ~/.cache/tui-sudoku/png/
 cp tui-sudoku.config ~/.config/tui-sudoku/tui-sudoku.config
 touch ~/.cache/tui-sudoku/history.txt ~/.cache/tui-sudoku/hiscores.txt
 cp -r png/ ~/.cache/tui-sudoku/
-```
-
-
-#### Dependencies
-
-[qqwing](https://qqwing.com/download.html) is the main dependency of this program, as it is the command line sudoku generator.
-
-[fzf](https://github.com/junegunn/fzf) is used in `Load` and `Level` selection functions.
-
-[lolcat](https://github.com/busyloop/lolcat) is used to give more color to the `Top Ten` presentation.
-
-In Debian based OSs, in order to install these dependencies:
-
-```
-sudo apt install qqwing fzf lolcat
 ```
 
 
