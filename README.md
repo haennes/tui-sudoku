@@ -45,6 +45,7 @@ Using the shortcuts in the shown cheatsheet table, the player can
   Typing `H` again will **undo the highlighting**:
 
 ![4.png](screenshots/4.png)
+
 -Typing `E` and entering up to 3 digits, will **earmark the cell**:
 
 ![5.png](screenshots/5.png)
@@ -113,7 +114,7 @@ cd tui-sudoku/
 The following commands will make the shell script executable, and copy it to the `$PATH`:
 ```
 chmod +x tui-sudoku.sh
-cp tui-sudoku.sh generate-sudoku ~/.local/bin/
+cp tui-sudoku.sh  ~/.local/bin/
 ```
 Create the necessary directories:
 
