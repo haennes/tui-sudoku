@@ -89,13 +89,13 @@ If there is no file kept there, **default values will be loaded**.
 
   | Color    | Code    | Script Variable    |
   |-----|-----|-----|
-  |Grid Color|\x1b[38;5;60m"|	C1|
-  |Given Numbers Color	|\e[1;33m"|C2|
-  |Found Numbers Color	|\e[1;36m"|C3|
-  |Wrong Numbers Color	|\e[1;31m"|C4|
-  |Highlight Color	|\e[1;32m"|C5|
-  |TextColor1	|\e[35m"|C6|
-  |TextColor1	|\e[36m"|C7|
+  |Grid Color|\x1b[38;5;60m|	C1|
+  |Given Numbers Color	|\e[1;33m|C2|
+  |Found Numbers Color	|\e[1;36m|C3|
+  |Wrong Numbers Color	|\e[1;31m|C4|
+  |Highlight Color	|\e[1;32m|C5|
+  |TextColor1	|\e[35m|C6|
+  |TextColor1	|\e[36m|C7|
 
 - `SYMMETRY` variable configures the symmetry of the given cells in the 9x9 matrix. Valid options are:
 _none, rotate90, rotate180, mirror, flip, or random_
