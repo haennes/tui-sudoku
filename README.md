@@ -150,7 +150,9 @@ cp -r png/ ~/.cache/tui-sudoku/
 ### RUN
 
 Since `tui-sudoku.sh` is copied in the `$PATH`:
-- Open a terminal window, and **adjust the font size to your liking, using `Ctrl` `Shift` `=` or `Ctrl` `-`**
+
+- Open a terminal window, and **adjust the font size to your liking, using `Ctrl` `Shift` `=` or `Ctrl`  `-`**
+
 - run:
 
 ```
