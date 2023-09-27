@@ -28,7 +28,7 @@ The user will be presented with the known **9x9 sudoku matrix**.
 Using the shortcuts in the shown cheatsheet table, the player can
 
 
-|Shorcuts     |Action     |
+|Shortcuts     |Action     |
 |-----|-----|
 |  hjkl 🠄 🠅🠇🠆    | Move Cursor    |
 | [1-9]    | Insert Number    |
