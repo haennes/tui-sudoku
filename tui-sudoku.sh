@@ -97,7 +97,7 @@ function win_game ()
 	then
 		TENTH=10000000000; #avoid first time error
 	else
-		TENTH="$(sort -rh $HOME/.cache/tui-sudoku/hiscores.txt|head -10|tail -1|awk '{print $1}')"
+		TENTH="$(sort -h $HOME/.cache/tui-sudoku/hiscores.txt|head -10|tail -1|awk '{print $1}')"
 	fi
 	SCORELINE="$SECONDS $TIME $(date +%Y-%m-%d\ %T) $LEVEL"
 	echo -e "${C2}Gongratulations!\nYou solved the puzzle in $MINUTES mins $SECMLEFT secs${n}"
