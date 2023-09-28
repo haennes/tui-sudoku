@@ -116,7 +116,7 @@ function win_game ()
 	MINUTES="$(( $SECONDS / 60 ))"
 	SECMLEFT="$(( $SECONDS - $((MINUTES * 60 )) ))"
 	TIME="$MINUTES mins $SECMLEFT secs"
-	if [[ $(cat $HOME/.cache/tui-sudoku/hiscores.txt|wc -l) -lt 1 ]]
+	if [[ $(grep $LEVEL $HOME/.cache/tui-sudoku/hiscores.txt|wc -l) -lt 1 ]]
 	then
 		TENTH=10000000000; #avoid first time error
 	else
@@ -124,7 +124,7 @@ function win_game ()
 	fi
 	SCORELINE="$SECONDS $TIME $(date +%Y-%m-%d\ %T) $LEVEL"
 	echo -e "${C2}Gongratulations!\nYou solved the puzzle in $MINUTES mins $SECMLEFT secs${n}"
-	if [ "$SECONDS" -lt "$TENTH" ]||[[ "$(cat $HOME/.cache/tui-sudoku/hiscores.txt|wc -l)" -lt 10 ]]
+	if [ "$SECONDS" -lt "$TENTH" ]||[[ "$(grep $LEVEL $HOME/.cache/tui-sudoku/hiscores.txt|wc -l)" -lt 10 ]]
 	then
 		echo $SCORELINE>>$HOME/.cache/tui-sudoku/hiscores.txt
 		echo -e "${C2}That's right, you made it to the${n}"
