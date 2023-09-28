@@ -82,7 +82,8 @@ function print_9x9
 function show_hiscores ()
 {
 	echo -e "${C1}\t\t╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗ \n\t\t║   │ ${C2}T${C1} │ ${C2}O${C1} ║ ${C2}P${C1} │   │ ${C2}T${C1} ║ ${C2}E${C1} │ ${C2}N${C1} │   ║\n\t\t╚═══╧═══╧═══╩═══╧═══╧═══╩═══╧═══╧═══╝${n}\n\n"
-	sort -h $HOME/.cache/tui-sudoku/hiscores.txt|cat -n|head -10|awk '{print $1" "$3" "$4" "$5" "$6" "$7" "$8" "$9}' |lolcat -p 3000 -a -s 40 -F 0.3
+	echo -e "${C6}LEVEL: ${C7}$LEVEL${n}\n"
+	sort -h $HOME/.cache/tui-sudoku/hiscores.txt|grep $LEVEL|cat -n|head -10|awk '{print $1" "$3" "$4" "$5" "$6" "$7" "$8}' |lolcat -p 3000 -a -s 40 -F 0.3
 }
 
 function win_game ()
@@ -97,7 +98,7 @@ function win_game ()
 	then
 		TENTH=10000000000; #avoid first time error
 	else
-		TENTH="$(sort -h $HOME/.cache/tui-sudoku/hiscores.txt|head -10|tail -1|awk '{print $1}')"
+		TENTH="$(sort -h $HOME/.cache/tui-sudoku/hiscores.txt|grep $LEVEL|head -10|tail -1|awk '{print $1}')"
 	fi
 	SCORELINE="$SECONDS $TIME $(date +%Y-%m-%d\ %T) $LEVEL"
 	echo -e "${C2}Gongratulations!\nYou solved the puzzle in $MINUTES mins $SECMLEFT secs${n}"
@@ -135,7 +136,7 @@ function main_menu ()
 		;;
 		c) clear;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Configuring tui-sudoku"&eval $PREFERRED_EDITOR $HOME/.config/tui-sudoku/tui-sudoku.config;load_config
 		;;
-		s) clear;show_hiscores;echo -e "\n${C6}Press any key to return${n}";read -sN 1 v;clear;
+		s) clear;enter_level;show_hiscores;LEVEL="";echo -e "\n${C6}Press any key to return${n}";read -sN 1 v;clear;
 		;;
   q) clear;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Exited tui-sudoku";
   ;;
