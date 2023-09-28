@@ -82,8 +82,8 @@ function print_9x9
 function show_hiscores ()
 {
 	echo -e "${C1}\t\t╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗ \n\t\t║   │ ${C2}T${C1} │ ${C2}O${C1} ║ ${C2}P${C1} │   │ ${C2}T${C1} ║ ${C2}E${C1} │ ${C2}N${C1} │   ║\n\t\t╚═══╧═══╧═══╩═══╧═══╧═══╩═══╧═══╧═══╝${n}\n\n"
-	echo -e "${C6}LEVEL: ${C7}$LEVEL${n}\n"
-	sort -h $HOME/.cache/tui-sudoku/hiscores.txt|grep $LEVEL|cat -n|head -10|awk '{print $1" "$3" "$4" "$5" "$6" "$7" "$8}' |lolcat -p 3000 -a -s 40 -F 0.3
+	echo -e "${C6}LEVEL: ${C7}${LEVEL^^}${n}\n"
+	sort -h $HOME/.cache/tui-sudoku/hiscores.txt|grep $LEVEL|cat -n|head -10|awk '{print $1" "$3" "$4" "$5" "$6" "$7" "$8}' |column -t|lolcat -p 3000 -a -s 40 -F 0.3
 }
 
 function win_game ()
