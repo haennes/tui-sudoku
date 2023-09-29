@@ -184,9 +184,10 @@ function check_duplicates ()
  	X[$i]=${C3}
  fi
  done
-
+EARMARKS=( ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ )
 	for DIGIT in {1..9} #all possible numbers
 	do
+		EARMARK=${EARMARKS[DIGIT-1]}
 		for ROW0 in {0..80..9} #first row cell ROW CHECK
 		do
 			ROW_STRING=""
@@ -212,8 +213,22 @@ function check_duplicates ()
 						X[$(($ROW0+$i))]=${I}${C4}
 					fi
 				done
-
 			fi
+			if [[ "${#ROW_STRING}" -ge 1 ]] #earmark duplicate row check
+			then
+			for i in {0..8}
+			do
+				if [[ ${G[$(($ROW0+$i))]} == *"$EARMARK"* ]]
+					then
+						MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
+						X[$(($ROW0+$i))]=${C4}
+					fi
+					if [[ ${G[$(($ROW0+$i))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($ROW0+$i)) ]]
+					then
+						X[$(($ROW0+$i))]=${I}${C4}
+					fi
+			done
+			fi #earmark duplicate row check
 		done #ROW0
 		for COLUMN0 in {0..8} # first column cell COLUMN CHECK
 		do
@@ -240,9 +255,25 @@ function check_duplicates ()
 					fi
 				done
 			fi
+
+			if [[ "${#COLUMN_STRING}" -ge 1 ]] #earmark duplicate column check
+			then
+			for i in {0..72..9}
+			do
+				if [[ ${G[$(($COLUMN0+$i))]} == *"$EARMARK"* ]]
+				then
+					MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
+					X[$(($COLUMN0+$i))]=${C4}
+				fi
+				if [[ ${G[$(($COLUMN0+$i))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($COLUMN0+$i)) ]]
+				then
+					X[$(($COLUMN0+$i))]=${I}${C4}
+				fi
+			done
+			fi #earmark duplicate column check
 		done #COLUMN0
 
-		for i in {0..80..27} # 3x3SQUARE SCHECK
+		for i in {0..80..27} # 3x3SQUARE CHECK
 		do
 			for ii in {0..6..3}
 			do
@@ -275,6 +306,24 @@ function check_duplicates ()
 						done #iv
 					done #iii
 				fi
+				if [[ "${#SQUARE_STRING}" -ge 1 ]] #earmark duplicate square check
+				then
+					for iii in {0..18..9}
+					do
+						for iv in {0..2}
+						do
+							if [[ ${G[$(($i+$ii+$iii+$iv))]} == *"$EARMARK"* ]]
+							then
+								MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
+								X[$(($i+$ii+$iii+$iv))]=${C4}
+							fi
+							if [[ ${G[$(($i+$ii+$iii+$iv))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($i+$ii+$iii+$iv)) ]]
+							then
+								X[$(($i+$ii+$iii+$iv))]=${I}${C4}
+							fi
+						done #iv
+					done #iii
+				fi #earmark duplicate square check
 			done #sq ii
 		done #sq i
 	done ##DIGIT
@@ -489,7 +538,7 @@ function play_menu ()
 			;;
 			[1-9]) if [[ "${F[CURSOR]}" == " 0 " ]];then NEW_G="0""$db""0";reg_history;G[CURSOR]=" ""$db"" ";MESSAGE="     ${C5}Entered number : $db     ";check_duplicates;fi;clear;
 			;;
-			E) earmark;
+			E) earmark;check_duplicates
 			;;
 			H) highlight;
 			;;
