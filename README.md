@@ -2,7 +2,7 @@
 
 tui-sudoku is a **configurable terminal interface sudoku game**, with quite a few features.
 
-![3.png](screenshots/3.png)
+ ![3.png](screenshots/3.png)
 
 
 
@@ -13,7 +13,7 @@ the player can :
 - Configure some parameters (colors, preferred editor, puzzle symmetry,preffered png)
 - exit the program
 
-![1.png](screenshots/1.png)
+ ![1.png](screenshots/1.png)
 
 #### PLAYING THE GAME
 
@@ -50,6 +50,10 @@ Using the shortcuts in the shown cheatsheet table, the player can
 
 ![5.png](screenshots/5.png)
 
+- Earmarking a cell with an **illegal number** (a number that *already exists in the row, the line or the 3x3 block*) will give an earmark with a different color, and a warning message:
+
+![5a.png](screenshots/5a.png)
+
 - Entering an **illegal number** (a number that *already exists in the row, the line or the 3x3 block*) will mark the number with a different color, and give a warning message:
 
 ![6.png](screenshots/6.png)
@@ -83,7 +87,7 @@ If there is no file kept there, **default values will be loaded**.
 
 - You can select the colors you like and the respective codes as they demonstrated here:
 
-  [https://talyian.github.io/ansicolors/](https://talyian.github.io/ansicolors/)
+    [https://talyian.github.io/ansicolors/](https://talyian.github.io/ansicolors/)
 
   **Default colors**
 
@@ -102,18 +106,18 @@ _none, rotate90, rotate180, mirror, flip, or random_
 
 - `PREFFERED_PNG` variable defines the png that shows in the notifications. These images are located in the `$HOME/.cache/tui-sudoku/png/` directory.
 
- ![11.png](screenshots/11.png)
+     ![11.png](screenshots/11.png)
 
 - `PREFERRED_EDITOR` variable configures the editor you wish to use with the `c` (configure) option.
 
 
 ### Dependencies
 
-[qqwing](https://qqwing.com/download.html) is the main dependency of this program, as it is the command line sudoku generator.
+- [qqwing](https://qqwing.com/download.html) is the main dependency of this program, as it is the command line sudoku generator.
 
-[fzf](https://github.com/junegunn/fzf) is used in `Load` and `Level` selection functions.
+- [fzf](https://github.com/junegunn/fzf) is used in `Load` and `Level` selection functions.
 
-[lolcat](https://github.com/busyloop/lolcat) is used to give more color to the `Top Ten` presentation.
+- [lolcat](https://github.com/busyloop/lolcat) is used to give more color to the `Top Ten` presentation.
 
 In Debian based OSs, in order to install these dependencies:
 
@@ -151,7 +155,7 @@ cp -r png/ ~/.cache/tui-sudoku/
 
 Since `tui-sudoku.sh` is copied in the `$PATH`:
 
-- Open a terminal window, and **adjust the font size to your liking, using `Ctrl` `Shift` `=` or `Ctrl`  `-`**
+- Open a terminal window, and **adjust the font size to your liking, using `Ctrl` `Shift` `+` or `Ctrl`  `-`**
 
 - run:
 
