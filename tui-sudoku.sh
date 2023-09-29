@@ -184,7 +184,7 @@ function check_duplicates ()
  	X[$i]=${C3}
  fi
  done
-EARMARKS=( ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ )
+	EARMARKS=( ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ )
 	for DIGIT in {1..9} #all possible numbers
 	do
 		EARMARK=${EARMARKS[DIGIT-1]}
@@ -255,7 +255,6 @@ EARMARKS=( ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ )
 					fi
 				done
 			fi
-
 			if [[ "${#COLUMN_STRING}" -ge 1 ]] #earmark duplicate column check
 			then
 			for i in {0..72..9}
@@ -327,12 +326,12 @@ EARMARKS=( ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ )
 			done #sq ii
 		done #sq i
 	done ##DIGIT
-
-		if [[ $high_switch -eq 1 ]]
+	if [[ $high_switch -eq 1 ]]
 	then
 		highlight_on
 	fi
 	if [[ ${G[@]} == ${F0[@]} ]];then win_game;fi
+	X[CURSOR]=${I}${X[CURSOR]}
 }
 
 function save_game ()
@@ -340,8 +339,7 @@ function save_game ()
 	FILE="$(date +%Y-%m-%d,%T).sdk"
  for i in {0..80}
  do
- echo "${G[$i]// /0} ${F[$i]// /} ${F0[$i]}">> $HOME/.cache/tui-sudoku/saved_games/"$FILE"
-
+ 	echo "${G[$i]// /0} ${F[$i]// /} ${F0[$i]}">> $HOME/.cache/tui-sudoku/saved_games/"$FILE"
  done
 
 }
@@ -387,9 +385,7 @@ function earmark ()
 		NEW_G=$ears
 		reg_history
 		G[CURSOR]="$ears"
-		X[CURSOR]=${I}${X[CURSOR]}
 	fi
-	clear
 	MESSAGE="                            "
 }
 
@@ -538,7 +534,7 @@ function play_menu ()
 			;;
 			[1-9]) if [[ "${F[CURSOR]}" == " 0 " ]];then NEW_G="0""$db""0";reg_history;G[CURSOR]=" ""$db"" ";MESSAGE="     ${C5}Entered number : $db     ";check_duplicates;fi;clear;
 			;;
-			E) earmark;check_duplicates
+			E) earmark;check_duplicates;clear;
 			;;
 			H) highlight;
 			;;
