@@ -1,23 +1,29 @@
-## tui-sudoku
+# tui-sudoku
 
 tui-sudoku is a **configurable terminal interface sudoku game**, with quite a few features.
 
- ![3.png](screenshots/3.png)
+ ![0.png](screenshots/0.png)
 
 
 
 Starting the game, and through the **main menu**,
 the player can :
-- Start a new game
+
+- Start a new game 
+
 - Load previously saved game
+
 - Configure some parameters (colors, preferred editor, puzzle symmetry,preffered png)
+
 - exit the program
 
- ![1.png](screenshots/1.png)
+     ![1.png](screenshots/1.png)
 
-#### PLAYING THE GAME
+---
 
-After choosing the `n New Game` option, the player can select the level of difficulty:
+## PLAYING THE GAME
+
+After choosing the `n New Game` option, the player can select the **level of difficulty**:
 
 ![2.png](screenshots/2.png)
 
@@ -35,50 +41,69 @@ Using the shortcuts in the shown cheatsheet table, the player can
 |0,␣<space\>,␈<backspace\>       |Clear Cell     |
 |  E   | Earmark cells|
 |H|Toggle Highlight Numbers|
+|I|Toggle show Info (key cheatsheet)|
 |S|Save Game|
 |z,Z| Undo / Redo |
 |M|Return to Main Menu|
 |Q|Show Solution & Quit|
 
+
+
+---
+
 - Typing `H` while the cursor is on a number, e.g. 2, will **highlight** all the 2s in the matrix.
 
-    Typing `H` again will **undo the highlighting**:
+    Typing `H` again will **undo the highlighting**.
 
-![4.png](screenshots/4.png)
+    ![4.png](screenshots/4.png)
 
 - Typing `E` and entering up to 3 digits, will **earmark the cell**:
 
-![5.png](screenshots/5.png)
+     ![5.png](screenshots/5.png)
 
 - Earmarking a cell with an **illegal number** (a number that *already exists in the row, the line or the 3x3 block*) will give an earmark with a different color, and a warning message:
 
-![5a.png](screenshots/5a.png)
+    ![5a.png](screenshots/5a.png)
 
 - Entering an **illegal number** (a number that *already exists in the row, the line or the 3x3 block*) will mark the number with a different color, and give a warning message:
 
-![6.png](screenshots/6.png)
+    ![6.png](screenshots/6.png)
 
-While the `M` option **returns to the `Main Menu`**, and the `S` option **saves the game**, the `Q` option **prints the solution and exits**:
 
-![9.png](screenshots/9.png)
+- Typing `I`, the user can **hide the key cheatsheet**.
+
+    Typing `I` again will **show the key cheatsheet again**.
+
+    ![6a.png](screenshots/6a.png)
+
 
 - The user can also **Undo** or **Redo** their entries with the `z` or `Z` option respectively.
 
-    Back in the `Main Menu`, the player can also
+- While the `M` option **returns to the `Main Menu`**, and the `S` option **saves the game**, the `Q` option **prints the solution and exits**:
+
+    ![9.png](screenshots/9.png)
+
+
+---
+
+
+Back in the `Main Menu`, the player can also
 
 - **Load a previously saved game** with the `l` option
 
-![8.png](screenshots/8.png)
+    ![8.png](screenshots/8.png)
 
 - **Configure** preferred _colors_, preferred _text editor_ and _puzzle symmetry_ with the `c` option
 
-![10.png](screenshots/10.png)
+    ![10.png](screenshots/10.png)
 
 - or Browse the **Top Ten Scores** (`s` option)
 
-![7.png](screenshots/7.png)
+    ![7.png](screenshots/7.png)
 
-### Configure
+---
+
+## Configure
 
 The configuration is kept in the `$HOME/.config/tui-sudoku/tui-sudoku.config` file.
 
@@ -110,8 +135,9 @@ _none, rotate90, rotate180, mirror, flip, or random_
 
 - `PREFERRED_EDITOR` variable configures the editor you wish to use with the `c` (configure) option.
 
+---
 
-### Dependencies
+## Dependencies
 
 - [qqwing](https://qqwing.com/download.html) is the main dependency of this program, as it is the command line sudoku generator.
 
@@ -125,9 +151,9 @@ In Debian based OSs, in order to install these dependencies:
 sudo apt install qqwing fzf lolcat
 ```
 
+---
 
-
-### INSTALL
+## INSTALL
 
 Clone the repo, and change directory into the program's directory:
 ```
@@ -149,9 +175,9 @@ touch ~/.cache/tui-sudoku/history.txt ~/.cache/tui-sudoku/hiscores.txt
 cp -r png/ ~/.cache/tui-sudoku/
 ```
 
+---
 
-
-### RUN
+## RUN
 
 Since `tui-sudoku.sh` is copied in the `$PATH`:
 
