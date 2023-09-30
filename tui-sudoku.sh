@@ -33,48 +33,37 @@ echo -e "$LABEL0\n$LABEL1\n$LABEL2"
 
 function undo_redo ()
 {
-	HISTORY_LENGTH=$(($(cat $HOME/.cache/tui-sudoku/history.txt|wc -l)+1))
+	HISTORY_LENGTH=$(cat $HOME/.cache/tui-sudoku/history.txt|wc -l)
  if [[ $db == "z" ]]
  then
 		if [[ $(($INDEX+1)) -lt $HISTORY_LENGTH ]]
 		then
-			if [[ $PREVIOUS_DO == "UN"  ]]
-			then	((INDEX++))
- 		fi # PREVIOUS_DO
-			HIST_LINE="$(tail -$INDEX $HOME/.cache/tui-sudoku/history.txt|head -1)"
-			NEW_CURSOR="$(echo $HIST_LINE|awk -F - '{print $1}')"
-			G[NEW_CURSOR]="$(echo $HIST_LINE|awk -F - '{print $2}'|sed 's/0/ /g')"
+			((INDEX++))
  	fi # LENGTH
-		PREVIOUS_DO="UN"
  elif [[ $db == "Z" ]]
  then
-		if [[ $INDEX -ge 2 ]]
+		if [[ $INDEX -ge 1 ]]
 		then
-			if [[ $PREVIOUS_DO == "RE"  ]]
-			then	((INDEX--))
- 		fi # PREVIOUS_DO
-			HIST_LINE="$(tail -$INDEX $HOME/.cache/tui-sudoku/history.txt|head -1)"
-			NEW_CURSOR="$(echo $HIST_LINE|awk -F - '{print $1}')"
-			G[NEW_CURSOR]="$(echo $HIST_LINE|awk -F - '{print $3}'|sed 's/0/ /g')"
-			PREVIOUS_DO="RE"
+			((INDEX--))
  	fi # LENGTH
 	fi #db
+	HIST_LINE="$(tail -$(($INDEX+1)) $HOME/.cache/tui-sudoku/history.txt|head -1)"
+	NEW_CURSOR="$(echo $HIST_LINE|awk -F - '{print $1}')"
+	G[NEW_CURSOR]="$(echo $HIST_LINE|awk -F - '{print $2}'|sed 's/0/ /g')"
 	check_duplicates
 	mv_cursor
 }
 
-
-
 function reg_history ()
 {
-	if [[ $INDEX -gt 1 ]]
+	if [[ $INDEX -gt 0 ]]
 	then
- 	head -n -$INDEX  $HOME/.cache/tui-sudoku/history.txt > $HOME/.cache/tui-sudoku/history_tmp.txt && mv $HOME/.cache/tui-sudoku/history_tmp.txt $HOME/.cache/tui-sudoku/history.txt
-		INDEX=1
-		PREVIOUS_DO=""
+ 	head -n -$(($INDEX+1))  $HOME/.cache/tui-sudoku/history.txt > $HOME/.cache/tui-sudoku/history_tmp.txt && mv $HOME/.cache/tui-sudoku/history_tmp.txt $HOME/.cache/tui-sudoku/history.txt
+		INDEX=0
 	fi
 	c=${G[CURSOR]// /0}
-	echo "$CURSOR-$c-$NEW_G-">>$HOME/.cache/tui-sudoku/history.txt
+	echo "$CURSOR-$c-">>$HOME/.cache/tui-sudoku/history.txt
+	echo "$CURSOR-$NEW_G-">>$HOME/.cache/tui-sudoku/history.txt
 }
 
 function print_9x9
@@ -490,8 +479,8 @@ function new_game
 {
 	cat /dev/null>$HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
 	cat /dev/null>$HOME/.cache/tui-sudoku/history.txt
-	INDEX=1
-	PREVIOUS_DO=""
+	INDEX=0
+
 	Q="$(qqwing --generate 1 --difficulty $LEVEL --symmetry $SYMMETRY --csv --solution|tail -1|sed 's/\./0/g')"
 	for x in {0..80}
 	do
