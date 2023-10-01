@@ -140,7 +140,7 @@ function win_game ()
 	TIME="$MINUTES mins $SECMLEFT secs"
 	if [[ $(grep $LEVEL $HOME/.cache/tui-sudoku/hiscores.txt|wc -l) -lt 1 ]]
 	then
-		TENTH=10000000000; #avoid first time error
+		TENTH=$(($SECONDS+100)); #avoid first time error
 	else
 		TENTH="$(sort -h $HOME/.cache/tui-sudoku/hiscores.txt|grep $LEVEL|head -10|tail -1|awk '{print $1}')"
 	fi
@@ -363,7 +363,9 @@ function save_game ()
  do
  	echo "${G[$i]// /0} ${F[$i]// /} ${F0[$i]}">> $HOME/.cache/tui-sudoku/saved_games/"$FILE"
  done
-
+ SAVED_TIMER_STOP="$(date +%s)"
+	SAVED_SECONDS=$(($SAVED_TIMER_STOP-$TIMER_START))
+	echo "SAVED_SECONDS $SAVED_SECONDS">> $HOME/.cache/tui-sudoku/saved_games/"$FILE"
 }
 
 function load_game ()
@@ -392,6 +394,8 @@ function load_game ()
 		((LINE++))
 	done
 	check_duplicates
+	SAVED_SECONDS="$(grep "SAVED_SECONDS" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
+	TIMER_START=$(($(date +%s)-$SAVED_SECONDS))
 	clear
 }
 
@@ -531,6 +535,7 @@ function new_game
 	fi
 	echo "${Q:x:1}"" ""${Q:x:1}"" ""${Q:82+x:1}"" ">>$HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
 	done
+	TIMER_START="$(date +%s)"
 	clear
 }
 
@@ -539,7 +544,6 @@ function play_menu ()
 	high_switch=0
 	db="";
 	CURSOR="0"
-	TIMER_START="$(date +%s)"
 	X[0]="${I}"${X[0]}
 	while [[ "$db" != "M" ]]
 	do
@@ -569,12 +573,13 @@ function play_menu ()
 			;;
 			"0") if [[ ${X[$CURSOR]} != *"${C2}"* ]]&&[[ ${X[$CURSOR]} != *"${C5}"* ]]&&[[ ${G[$CURSOR]} != "   " ]];then NEW_G="000";reg_history;G[CURSOR]="   ";check_duplicates;X[CURSOR]="${I}${C3}";MESSAGE="      ${C5}Cleared Cell          ";fi;clear;
 			;;
-		 Q) highlight;clear;G=("${F0[@]}");print_9x9|sed 's/  ├.*$//g;s/  ╭.*$//g;s/  │.*$//g;s/  ╰.*$//g';notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Exited tui-sudoku";echo -e "\e[3m${C2}El arte de vencer se aprende en las derrotas\n\t\t\t\t${n}${C2}Simón Bolívar${n}";echo -e "${C6}Press any key to exit${n}";read -sn 1 v;exit;
+		 Q) highlight;clear;G=("${F0[@]}");INFO=1;load_info;INFO_STR[19]="\e[3m${C2}El arte de vencer se aprende en las derrotas\n\t\t\t\t${C2}Simón Bolívar${n}${n}";print_9x9;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Exited tui-sudoku";echo -e "${C6}Press any key to exit${n}";read -sn 1 v;exit;
 		 ;;
 			I) load_info;clear;
 			;;
 		 *)clear;
 		esac
+		if [[ $db = "W" ]];then win_game;fi ###################
 	done
 }
 function load_config ()
