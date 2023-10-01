@@ -579,7 +579,7 @@ function play_menu ()
 			;;
 		 *)clear;
 		esac
-		if [[ $db = "W" ]];then win_game;fi ###################
+
 	done
 }
 function load_config ()
