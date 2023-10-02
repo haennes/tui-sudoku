@@ -9,39 +9,52 @@
 #  │ O ││ K ││ U │
 #  ╰───╯╰───╯╰───╯
 
+
+function pause ()
+{
+	clear
+	echo -e "\n${C2}     ╭───╮${C1}╭───╮╭───╮\n${C2}     │ P │${C1}│   ││   │\n${C2}     ╰───╯${C1}╰───╯╰───╯\n${C2}     ╭───╮╭───╮${C1}╭───╮\n${C2}     │ A ││ U │${C1}│   │\n${C2}     ╰───╯╰───╯${C1}╰───╯\n${C1}     ${C2}╭───╮╭───╮╭───╮\n${C1}     ${C2}│ S ││ E ││ D │\n${C1}     ${C2}╰───╯╰───╯╰───╯\n"
+	PAUSED_SECONDS_START="$(date +%s)"
+	echo -e "\n${C6}Press any key to return to the game${n}"
+	read -sN 1 v
+	PAUSED_SECONDS_STOP="$(date +%s)"
+	PAUSED_SECONDS="$(($PAUSED_SECONDS_STOP-$PAUSED_SECONDS_START))"
+	TIMER_START=$(($TIMER_START+$PAUSED_SECONDS))
+}
+
 function load_info ()
 {
-if [[ $INFO -eq 0 ]]
-then
-INFO_STR[0]=" ╭────────────────────────────╮"
-INFO_STR[1]=" │${C6} hjkl 🠄 🠅🠇🠆    ${C7} Move Cursor ${C1}│"
-INFO_STR[2]=" ├────────────────────────────┤"
-INFO_STR[3]=" │${C6} [1-9]       ${C7} Insert Number ${C1}│"
-INFO_STR[4]=" ├────────────────────────────┤"
-INFO_STR[5]=" │${C6} 0 ␣ ␈       ${C7} Delete Number ${C1}│"
-INFO_STR[6]=" ├────────────────────────────┤"
-INFO_STR[7]=" │${C6} E                 ${C7} Earmark ${C1}│"
-INFO_STR[8]=" ├────────────────────────────┤"
-INFO_STR[9]=" │${C6} H         ${C7}Toggle Highlight ${C1}│"
-INFO_STR[10]=" ├─────────────┬──────────────┤"
-INFO_STR[11]=" │${C6} S     ${C7}Save  ${C1}│${C6} I ${C7} Hide Info ${C1}│"
-INFO_STR[12]=" ├─────────────┼──────────────┤"
-INFO_STR[13]=" │${C6} z      ${C7}Undo ${C1}│${C6} Z  ${C7}     Redo ${C1}│"
-INFO_STR[14]=" ├─────────────┼──────────────┤"
-INFO_STR[15]=" │${C6} Q      ${C7}Quit ${C1}│${C6} M  ${C7}Main Menu ${C1}│"
-INFO_STR[16]=" ├─────────────┴──────────────┤"
-INFO_STR[17]=" │${MESSAGE:0:40}${C1}│"
-INFO_STR[18]="${C1} ╰────────────────────────────╯${n}"
-INFO_STR[19]=""
-INFO=1
-else
-for i in {0..18}
-do
-INFO_STR[i]=""
-done
-INFO_STR[19]="${C7}       Enter  ${C6}I  ${C7} to Show Info ${n}"
-INFO=0
-fi
+	if [[ $INFO -eq 0 ]]
+	then
+		INFO_STR[0]=" ╭────────────────────────────╮"
+		INFO_STR[1]=" │${C6} hjkl 🠄 🠅🠇🠆    ${C7} Move Cursor ${C1}│"
+		INFO_STR[2]=" ├────────────────────────────┤"
+		INFO_STR[3]=" │${C6} [1-9]       ${C7} Insert Number ${C1}│"
+		INFO_STR[4]=" ├────────────────────────────┤"
+		INFO_STR[5]=" │${C6} 0 ␣ ␈       ${C7} Delete Number ${C1}│"
+		INFO_STR[6]=" ├────────────────────────────┤"
+		INFO_STR[7]=" │${C6} E                 ${C7} Earmark ${C1}│"
+		INFO_STR[8]=" ├─────────────┬──────────────┤"
+		INFO_STR[9]=" │${C6} H ${C7}Highlight ${C1}│${C6} P     ${C7} Pause ${C1}│"
+		INFO_STR[10]=" ├─────────────┼──────────────┤"
+		INFO_STR[11]=" │${C6} S      ${C7}Save ${C1}│${C6} I ${C7} Hide Info ${C1}│"
+		INFO_STR[12]=" ├─────────────┼──────────────┤"
+		INFO_STR[13]=" │${C6} z      ${C7}Undo ${C1}│${C6} Z  ${C7}     Redo ${C1}│"
+		INFO_STR[14]=" ├─────────────┼──────────────┤"
+		INFO_STR[15]=" │${C6} Q      ${C7}Quit ${C1}│${C6} M  ${C7}Main Menu ${C1}│"
+		INFO_STR[16]=" ├─────────────┴──────────────┤"
+		INFO_STR[17]=" │${MESSAGE:0:40}${C1}│"
+		INFO_STR[18]="${C1} ╰────────────────────────────╯${n}"
+		INFO_STR[19]=""
+		INFO=1
+	else
+		for i in {0..18}
+		do
+			INFO_STR[i]=""
+		done
+		INFO_STR[19]="${C7}       Enter  ${C6}I  ${C7} to Show Info ${n}"
+		INFO=0
+	fi
 }
 function label ()
 {
@@ -49,36 +62,36 @@ function label ()
 	LABEL0="${C1}╔═══"
 	LABEL1="${C1}║ ${C6}${W:0:1} "
 	LABEL2="${C1}╚═══"
-WLENGTH="${#W}"
-CHRCTR=1
-while [[ $CHRCTR -lt $WLENGTH ]]
-do
- LABEL0="$LABEL0""╤═══"
- LABEL1="$LABEL1""${C1}│ ${C6}${W:CHRCTR:1} "
- LABEL2="$LABEL2""╧═══"
-	((CHRCTR++))
-done
-LABEL0="$LABEL0""╗"
-LABEL1="$LABEL1""${C1}║"
-LABEL2="$LABEL2""╝"
-echo -e "$LABEL0\n$LABEL1\n$LABEL2"
+	WLENGTH="${#W}"
+	CHRCTR=1
+	while [[ $CHRCTR -lt $WLENGTH ]]
+	do
+		LABEL0="$LABEL0""╤═══"
+		LABEL1="$LABEL1""${C1}│ ${C6}${W:CHRCTR:1} "
+		LABEL2="$LABEL2""╧═══"
+		((CHRCTR++))
+	done
+	LABEL0="$LABEL0""╗"
+	LABEL1="$LABEL1""${C1}║"
+	LABEL2="$LABEL2""╝"
+	echo -e "$LABEL0\n$LABEL1\n$LABEL2"
 }
 
 function undo_redo ()
 {
 	HISTORY_LENGTH=$(cat $HOME/.cache/tui-sudoku/history.txt|wc -l)
- if [[ $db == "z" ]]
- then
+	if [[ $db == "z" ]]
+	then
 		if [[ $(($INDEX+1)) -lt $HISTORY_LENGTH ]]
 		then
 			((INDEX++))
- 	fi # LENGTH
- elif [[ $db == "Z" ]]
- then
+		fi # LENGTH
+	elif [[ $db == "Z" ]]
+	then
 		if [[ $INDEX -ge 1 ]]
 		then
 			((INDEX--))
- 	fi # LENGTH
+		fi # LENGTH
 	fi #db
 	HIST_LINE="$(tail -$(($INDEX+1)) $HOME/.cache/tui-sudoku/history.txt|head -1)"
 	NEW_CURSOR="$(echo $HIST_LINE|awk -F - '{print $1}')"
@@ -91,7 +104,7 @@ function reg_history ()
 {
 	if [[ $INDEX -gt 0 ]]
 	then
- 	head -n -$(($INDEX+1))  $HOME/.cache/tui-sudoku/history.txt > $HOME/.cache/tui-sudoku/history_tmp.txt && mv $HOME/.cache/tui-sudoku/history_tmp.txt $HOME/.cache/tui-sudoku/history.txt
+		head -n -$(($INDEX+1))  $HOME/.cache/tui-sudoku/history.txt > $HOME/.cache/tui-sudoku/history_tmp.txt && mv $HOME/.cache/tui-sudoku/history_tmp.txt $HOME/.cache/tui-sudoku/history.txt
 		INDEX=0
 	fi
 	c=${G[CURSOR]// /0}
@@ -153,7 +166,7 @@ function win_game ()
 		show_hiscores
 	fi
 	echo -e "\n${C6}Press any key to return${n}";read -sN 1 v;clear;
- db="M"
+	db="M"
 }
 
 
@@ -172,22 +185,21 @@ function main_menu ()
 		echo -e "${C2}     ╰───╯╰───╯╰───╯        ${C1}├──────────────────────────────┤${n}"
 		echo -e "${C2}                            ${C1}│${C6} q                ${n}${C7}    Exit    ${C1}│"
 		echo -e "                            ╰──────────────────────────────╯${n}"
-	read -sn 1 mm
- case $mm in
-		n) clear;enter_level;new_game;play_menu;
-		;;
-		l) load_game;MESSAGE="        ${C5}Game Loaded         ";play_menu;
-		;;
-		c) clear;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Configuring tui-sudoku"&eval $PREFERRED_EDITOR $HOME/.config/tui-sudoku/tui-sudoku.config;load_config
-		;;
-		s) clear;enter_level;show_hiscores;LEVEL="";echo -e "\n${C6}Press any key to return${n}";read -sN 1 v;clear;
-		;;
-  q) clear;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Exited tui-sudoku";
-  ;;
-  *)clear;
- esac
-done
-
+		read -sn 1 mm
+		case $mm in
+			n) clear;enter_level;new_game;play_menu;
+			;;
+			l) load_game;MESSAGE="        ${C5}Game Loaded         ";play_menu;
+			;;
+			c) clear;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Configuring tui-sudoku"&eval $PREFERRED_EDITOR $HOME/.config/tui-sudoku/tui-sudoku.config;load_config
+			;;
+			s) clear;enter_level;show_hiscores;LEVEL="";echo -e "\n${C6}Press any key to return${n}";read -sN 1 v;clear;
+			;;
+			q) clear;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Exited tui-sudoku";
+			;;
+			*)clear;
+		esac
+	done
 }
 
 function enter_level ()
@@ -199,13 +211,13 @@ function enter_level ()
 
 function check_duplicates ()
 {
- for i in {0..80} #this loop refreshes wrong color values, ready to be parsed anew
- do
- if [[ "${X[$i]}" == *${C4}* ]]
- then
- 	X[$i]=${C3}
- fi
- done
+	for i in {0..80} #this loop refreshes wrong color values, ready to be parsed anew
+	do
+		if [[ "${X[$i]}" == *${C4}* ]]
+		then
+			X[$i]=${C3}
+		fi
+	done
 	EARMARKS=( ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ )
 	for DIGIT in {1..9} #all possible numbers
 	do
@@ -238,9 +250,9 @@ function check_duplicates ()
 			fi
 			if [[ "${#ROW_STRING}" -ge 1 ]] #earmark duplicate row check
 			then
-			for i in {0..8}
-			do
-				if [[ ${G[$(($ROW0+$i))]} == *"$EARMARK"* ]]
+				for i in {0..8}
+				do
+					if [[ ${G[$(($ROW0+$i))]} == *"$EARMARK"* ]]
 					then
 						MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
 						X[$(($ROW0+$i))]=${C4}
@@ -249,7 +261,7 @@ function check_duplicates ()
 					then
 						X[$(($ROW0+$i))]=${I}${C4}
 					fi
-			done
+				done
 			fi #earmark duplicate row check
 		done #ROW0
 		for COLUMN0 in {0..8} # first column cell COLUMN CHECK
@@ -279,18 +291,18 @@ function check_duplicates ()
 			fi
 			if [[ "${#COLUMN_STRING}" -ge 1 ]] #earmark duplicate column check
 			then
-			for i in {0..72..9}
-			do
-				if [[ ${G[$(($COLUMN0+$i))]} == *"$EARMARK"* ]]
-				then
-					MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
-					X[$(($COLUMN0+$i))]=${C4}
-				fi
-				if [[ ${G[$(($COLUMN0+$i))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($COLUMN0+$i)) ]]
-				then
-					X[$(($COLUMN0+$i))]=${I}${C4}
-				fi
-			done
+				for i in {0..72..9}
+				do
+					if [[ ${G[$(($COLUMN0+$i))]} == *"$EARMARK"* ]]
+					then
+						MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
+						X[$(($COLUMN0+$i))]=${C4}
+					fi
+					if [[ ${G[$(($COLUMN0+$i))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($COLUMN0+$i)) ]]
+					then
+						X[$(($COLUMN0+$i))]=${I}${C4}
+					fi
+				done
 			fi #earmark duplicate column check
 		done #COLUMN0
 
@@ -359,11 +371,11 @@ function check_duplicates ()
 function save_game ()
 {
 	FILE="$(date +%Y-%m-%d,%T).sdk"
- for i in {0..80}
- do
- 	echo "${G[$i]// /0} ${F[$i]// /} ${F0[$i]}">> $HOME/.cache/tui-sudoku/saved_games/"$FILE"
- done
- SAVED_TIMER_STOP="$(date +%s)"
+	for i in {0..80}
+	do
+		echo "${G[$i]// /0} ${F[$i]// /} ${F0[$i]}">> $HOME/.cache/tui-sudoku/saved_games/"$FILE"
+	done
+	SAVED_TIMER_STOP="$(date +%s)"
 	SAVED_SECONDS=$(($SAVED_TIMER_STOP-$TIMER_START))
 	echo "SAVED_SECONDS $SAVED_SECONDS">> $HOME/.cache/tui-sudoku/saved_games/"$FILE"
 }
@@ -371,8 +383,8 @@ function save_game ()
 function load_game ()
 {
 	cat /dev/null>$HOME/.cache/tui-sudoku/history.txt
- cd $HOME/.cache/tui-sudoku/saved_games/
-		LOAD="$(ls *sdk|fzf --disabled --info=hidden --cycle --reverse +i +m --color='gutter:-1' --ansi  --preview-window=left,30%,border-none --prompt="Select game to load:" --preview='echo -e "\n${C2}""     ╭───╮"${C1}"╭───╮╭───╮\n"${C2}"     │ L │"${C1}"│   ││   │\n"${C2}"     ╰───╯"${C1}"╰───╯╰───╯\n     ╭───╮"${C2}"╭───╮╭───╮\n"${C1}"     │   │"${C2}"│ O ││ A │\n"${C1}"     ╰───╯"${C2}"╰───╯╰───╯\n"${C1}"     ╭───╮╭───╮"${C2}"╭───╮\n"${C1}"     │   ││   │"${C2}"│ D │\n"${C1}"     ╰───╯╰───╯"${C2}"╰───╯";')"
+	cd $HOME/.cache/tui-sudoku/saved_games/
+	LOAD="$(ls *sdk|fzf --disabled --info=hidden --cycle --reverse +i +m --color='gutter:-1' --ansi  --preview-window=left,30%,border-none --prompt="Select game to load:" --preview='echo -e "\n${C2}""     ╭───╮"${C1}"╭───╮╭───╮\n"${C2}"     │ L │"${C1}"│   ││   │\n"${C2}"     ╰───╯"${C1}"╰───╯╰───╯\n     ╭───╮"${C2}"╭───╮╭───╮\n"${C1}"     │   │"${C2}"│ O ││ A │\n"${C1}"     ╰───╯"${C2}"╰───╯╰───╯\n"${C1}"     ╭───╮╭───╮"${C2}"╭───╮\n"${C1}"     │   ││   │"${C2}"│ D │\n"${C1}"     ╰───╯╰───╯"${C2}"╰───╯";')"
 	cd -
 
 	LINE=1
@@ -403,7 +415,6 @@ function earmark ()
 {
 	if [[ ${F[$CURSOR]} == " 0 " ]]
 	then
-		MESSAGE="        ${C5}Earmarking          "
 		echo -e "${C6}Enter numbers(max 3 digits):${n}"
 		read ears
 		ears="$(echo "$ears"|sed 's/[a-z]//g;s/[A-Z]//g;s/1/₁/;s/2/₂/;s/3/₃/;s/4/₄/;s/5/₅/;s/6/₆/;s/7/₇/;s/8/₈/;s/9/₉/;s/ //g')""   "
@@ -412,7 +423,7 @@ function earmark ()
 		reg_history
 		G[CURSOR]="$ears"
 	fi
-	MESSAGE="                            "
+	MESSAGE="        ${C5}Earmarked   $ears     ${n}"
 }
 
 function highlight_on ()
@@ -441,8 +452,8 @@ function highlight ()
 		MESSAGE="  ${C5}Highlight  toggle on      "
 		if [[ -z $(echo $high|sed 's/[1-9]//') ]]
 		then
-			highlight_on
-			high_switch=1
+		highlight_on
+		high_switch=1
 		fi
 	else
 		MESSAGE="  ${C5}Highlight  toggle off     "
@@ -467,47 +478,47 @@ function highlight ()
 function load_colors ()
 {
 LINE=1
-while [[ "$LINE" -le 81 ]]
-do
-	if [[ ${F[$((LINE-1))]} == "   " ]]
-	then
+	while [[ "$LINE" -le 81 ]]
+	do
+		if [[ ${F[$((LINE-1))]} == "   " ]]
+		then
 		X[$((LINE-1))]="${C3}"
-	else
+		else
 		X[$((LINE-1))]="${C2}"
-	fi
-	((LINE++))
-done
+		fi
+		((LINE++))
+	done
 }
 
 function mv_cursor ()
 {
- if [[ ${F[$CURSOR]} == " 0 " ]]&&[[ ${X[$CURSOR]} != *"${C4}"* ]]
- then
- 	X[$CURSOR]=${C3}
- fi
- if [[ ${X[$CURSOR]} != *"${C4}"* ]]&&[[ $high_switch -eq 1 ]]&&[[ ${G[$CURSOR]} == " $high " ]]
- then
- 		X[$CURSOR]=${I}${C5}
- fi
- if [[ ${X[$CURSOR]} == *"${C4}"* ]]
- then
- 	X[$CURSOR]=${C4}
- fi
- if [[ ${F[$CURSOR]} != " 0 " ]]&&[[ ${G[$CURSOR]} != " $high " ]]
- then
- 	X[$CURSOR]=${C2}
- fi
- if [[ ${F[$NEW_CURSOR]} == " 0 " ]]&&[[ ${X[$NEW_CURSOR]} != "${C4}" ]]
- then
- 	X[$NEW_CURSOR]="${I}${C3}"
- fi
- if [[ ${F[$NEW_CURSOR]} != " 0 " ]]
- then
- 	X[$NEW_CURSOR]="${I}${C2}"
- fi
- if [[ ${X[$NEW_CURSOR]} == "${C4}" ]]
- then
- 	X[$NEW_CURSOR]="${I}${C4}"
+	if [[ ${F[$CURSOR]} == " 0 " ]]&&[[ ${X[$CURSOR]} != *"${C4}"* ]]
+	then
+		X[$CURSOR]=${C3}
+	fi
+	if [[ ${X[$CURSOR]} != *"${C4}"* ]]&&[[ $high_switch -eq 1 ]]&&[[ ${G[$CURSOR]} == " $high " ]]
+	then
+		X[$CURSOR]=${I}${C5}
+	fi
+	if [[ ${X[$CURSOR]} == *"${C4}"* ]]
+	then
+		X[$CURSOR]=${C4}
+	fi
+	if [[ ${F[$CURSOR]} != " 0 " ]]&&[[ ${G[$CURSOR]} != " $high " ]]
+	then
+		X[$CURSOR]=${C2}
+	fi
+	if [[ ${F[$NEW_CURSOR]} == " 0 " ]]&&[[ ${X[$NEW_CURSOR]} != "${C4}" ]]
+	then
+		X[$NEW_CURSOR]="${I}${C3}"
+	fi
+	if [[ ${F[$NEW_CURSOR]} != " 0 " ]]
+	then
+		X[$NEW_CURSOR]="${I}${C2}"
+	fi
+	if [[ ${X[$NEW_CURSOR]} == "${C4}" ]]
+	then
+		X[$NEW_CURSOR]="${I}${C4}"
 	fi
 	CURSOR="$NEW_CURSOR"
 }
@@ -528,12 +539,12 @@ function new_game
 		G[x]="${F[x]}"
 		if [[ ${F[x]} == " 0 " ]]
 		then
-		G[x]="   "
-		X[x]="${C3}"
-	else
-		X[x]="${C2}"
-	fi
-	echo "${Q:x:1}"" ""${Q:x:1}"" ""${Q:82+x:1}"" ">>$HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
+			G[x]="   "
+			X[x]="${C3}"
+		else
+			X[x]="${C2}"
+		fi
+		echo "${Q:x:1}"" ""${Q:x:1}"" ""${Q:82+x:1}"" ">>$HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
 	done
 	TIMER_START="$(date +%s)"
 	clear
@@ -567,49 +578,52 @@ function play_menu ()
 			;;
 			S) save_game;MESSAGE="        ${C5}Game Saved          ";clear;
 			;;
+			P) pause;    MESSAGE="       ${C5}Game Unpaused        ";clear;
+			;;
 			M) clear;
 			;;
 			[z,Z]) undo_redo;clear;
 			;;
 			"0") if [[ ${X[$CURSOR]} != *"${C2}"* ]]&&[[ ${X[$CURSOR]} != *"${C5}"* ]]&&[[ ${G[$CURSOR]} != "   " ]];then NEW_G="000";reg_history;G[CURSOR]="   ";check_duplicates;X[CURSOR]="${I}${C3}";MESSAGE="      ${C5}Cleared Cell          ";fi;clear;
 			;;
-		 Q) highlight;clear;G=("${F0[@]}");INFO=1;load_info;INFO_STR[19]="\e[3m${C2}El arte de vencer se aprende en las derrotas\n\t\t\t\t${C2}Simón Bolívar${n}${n}";print_9x9;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Exited tui-sudoku";echo -e "${C6}Press any key to exit${n}";read -sn 1 v;exit;
-		 ;;
+			Q) clear;G=("${F0[@]}");high_switch=1;highlight;INFO=1;load_info;INFO_STR[19]="\e[3m${C2}El arte de vencer se aprende en las derrotas\n\t\t\t\t${C2}Simón Bolívar${n}${n}";print_9x9;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Exited tui-sudoku";echo -e "${C6}Press any key to exit${n}";read -sn 1 v;exit;
+			;;
 			I) load_info;clear;
 			;;
-		 *)clear;
+			*)clear;
 		esac
-
+# if [[ $db = "W" ]];then win_game;fi ## for debugging reasons
 	done
 }
 function load_config ()
 {
-#Loading Grid Color(C1), Given Numbers Color(C2), Found Numbers Color(C3), Wrong Numbers Color(C4), Highlight Color(C5), Text Color1(C6), Text Color2(C7) from $HOME/.config/tui-sudoku/tui-sudoku.config. If there is no such file, default values are given.
-if [[ -f $HOME/.config/tui-sudoku/tui-sudoku.config ]]|| [[ -z "$($HOME/.config/tui-sudoku/tui-sudoku.config)" ]]
-then
- C1="$(grep "GRID_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
- C2="$(grep "GIVEN_NUMBERS_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
-	C3="$(grep "FOUND_NUMBERS_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
-	C4="$(grep "WRONG_NUMBERS_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
-	C5="$(grep "HIGHLIGHT_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
-	C6="$(grep "TEXT_COLOR1" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
-	C7="$(grep "TEXT_COLOR2" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
-	PREFERRED_EDITOR="$(grep "PREFERRED_EDITOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
-	SYMMETRY="$(grep "SYMMETRY" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
-	PREFFERED_PNG="$(grep "PREFFERED_PNG" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
-else
-	#DEFAULT VALUES
-	C1="\x1b[38;5;60m" #Grid Color
-	C2="\e[1;33m" #Given Numbers Color
-	C3="\e[1;36m" #Found Numbers Color
-	C4="\e[1;31m" #Wrong Numbers Color
-	C5="\e[1;32m" #Highlight Color
-	C6="\e[35m" #TextColor1
-	C7="\e[36m" #TextColor1
-	PREFERRED_EDITOR="nano"
-	SYMMETRY="rotate90"
-	PREFFERED_PNG="2sudoku.png"
-fi
+	#Loading Grid Color(C1), Given Numbers Color(C2), Found Numbers Color(C3), Wrong Numbers Color(C4), Highlight Color(C5), Text Color1(C6), Text Color2(C7) from $HOME/.config/tui-sudoku/tui-sudoku.config.
+	# If there is no such file, default values are given.
+	if [[ -f $HOME/.config/tui-sudoku/tui-sudoku.config ]]|| [[ -z "$($HOME/.config/tui-sudoku/tui-sudoku.config)" ]]
+	then
+		C1="$(grep "GRID_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+		C2="$(grep "GIVEN_NUMBERS_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+		C3="$(grep "FOUND_NUMBERS_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+		C4="$(grep "WRONG_NUMBERS_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+		C5="$(grep "HIGHLIGHT_COLOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+		C6="$(grep "TEXT_COLOR1" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+		C7="$(grep "TEXT_COLOR2" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+		PREFERRED_EDITOR="$(grep "PREFERRED_EDITOR" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+		SYMMETRY="$(grep "SYMMETRY" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+		PREFFERED_PNG="$(grep "PREFFERED_PNG" $HOME/.config/tui-sudoku/tui-sudoku.config|awk '{print $2}' )"
+	else
+		#DEFAULT VALUES
+		C1="\x1b[38;5;60m" #Grid Color
+		C2="\e[1;33m" #Given Numbers Color
+		C3="\e[1;36m" #Found Numbers Color
+		C4="\e[1;31m" #Wrong Numbers Color
+		C5="\e[1;32m" #Highlight Color
+		C6="\e[35m" #TextColor1
+		C7="\e[36m" #TextColor1
+		PREFERRED_EDITOR="nano"
+		SYMMETRY="rotate90"
+		PREFFERED_PNG="2sudoku.png"
+	fi
 }
 
 #########################################################

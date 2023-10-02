@@ -42,6 +42,7 @@ Using the shortcuts in the shown cheatsheet table, the player can
 |  E   | Earmark cells|
 |H|Toggle Highlight Numbers|
 |I|Toggle show Info (key cheatsheet)|
+|P|Pause Game
 |S|Save Game|
 |z,Z| Undo / Redo |
 |M|Return to Main Menu|
@@ -76,6 +77,9 @@ Using the shortcuts in the shown cheatsheet table, the player can
 
     ![6a.png](screenshots/6a.png)
 
+- Typing `P` will **pause the game.** By hitting any key, the user can return to the game.
+
+    ![6b.png](screenshots/6b.png)
 
 - The user can also **Undo** or **Redo** their entries with the `z` or `Z` option respectively.
 
@@ -168,11 +172,13 @@ cp tui-sudoku.sh  ~/.local/bin/
 Create the necessary directories:
 
 ```
+
 mkdir -p ~/.config/tui-sudoku/ ~/.cache/tui-sudoku/saved_games/
 mkdir -p  ~/.cache/tui-sudoku/png/
 cp tui-sudoku.config ~/.config/tui-sudoku/tui-sudoku.config
 touch ~/.cache/tui-sudoku/history.txt ~/.cache/tui-sudoku/hiscores.txt
 cp -r png/ ~/.cache/tui-sudoku/
+
 ```
 
 ---
