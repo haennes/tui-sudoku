@@ -217,6 +217,14 @@ function check_duplicates ()
 		then
 			X[$i]=${C3}
 		fi
+
+
+	if [[ "${G[$i]}" == *${C4}* ]]||[[ "${G[$i]}" == *${C3}* ]] ##this loop does the same for earmarks
+	then
+		G[$i]=${G[$i]//"${C4}"/}
+		G[$i]=${G[$i]//"${C3}"/}
+		X[$i]=${C3}
+	fi
 	done
 	EARMARKS=( ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ )
 	for DIGIT in {1..9} #all possible numbers
@@ -255,11 +263,13 @@ function check_duplicates ()
 					if [[ ${G[$(($ROW0+$i))]} == *"$EARMARK"* ]]
 					then
 						MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
-						X[$(($ROW0+$i))]=${C4}
+						#X[$(($ROW0+$i))]=${C4}
+						G[ROW0+i]=${G[$(($ROW0+$i))]/$EARMARK/${C4}$EARMARK${C3}} ##################################
 					fi
 					if [[ ${G[$(($ROW0+$i))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($ROW0+$i)) ]]
 					then
-						X[$(($ROW0+$i))]=${I}${C4}
+						#X[$(($ROW0+$i))]=${I}${C4}
+						X[$(($ROW0+$i))]=${I}${X[$(($ROW0+$i))]}
 					fi
 				done
 			fi #earmark duplicate row check
@@ -296,11 +306,12 @@ function check_duplicates ()
 					if [[ ${G[$(($COLUMN0+$i))]} == *"$EARMARK"* ]]
 					then
 						MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
-						X[$(($COLUMN0+$i))]=${C4}
+#						X[$(($COLUMN0+$i))]=${C4}
+						G[COLUMN0+i]=${G[$(($COLUMN0+$i))]/$EARMARK/${C4}$EARMARK${C3}} ##################################
 					fi
 					if [[ ${G[$(($COLUMN0+$i))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($COLUMN0+$i)) ]]
 					then
-						X[$(($COLUMN0+$i))]=${I}${C4}
+						X[$(($COLUMN0+$i))]=${I}${X[$(($COLUMN0+$i))]}
 					fi
 				done
 			fi #earmark duplicate column check
@@ -348,11 +359,13 @@ function check_duplicates ()
 							if [[ ${G[$(($i+$ii+$iii+$iv))]} == *"$EARMARK"* ]]
 							then
 								MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
-								X[$(($i+$ii+$iii+$iv))]=${C4}
+#								X[$(($i+$ii+$iii+$iv))]=${C4}
+						G[i+ii+iii+iv]=${G[$(($i+$ii+$iii+$iv))]/$EARMARK/${C4}$EARMARK${C3}} ##################################
 							fi
 							if [[ ${G[$(($i+$ii+$iii+$iv))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($i+$ii+$iii+$iv)) ]]
 							then
-								X[$(($i+$ii+$iii+$iv))]=${I}${C4}
+								X[$(($i+$ii+$iii+$iv))]=${I}${X[$(($i+$ii+$iii+$iv))]}
+
 							fi
 						done #iv
 					done #iii
@@ -417,7 +430,7 @@ function earmark ()
 	then
 		echo -e "${C6}Enter numbers(max 3 digits):${n}"
 		read ears
-		ears="$(echo "$ears"|sed 's/[a-z]//g;s/[A-Z]//g;s/1/₁/;s/2/₂/;s/3/₃/;s/4/₄/;s/5/₅/;s/6/₆/;s/7/₇/;s/8/₈/;s/9/₉/;s/ //g')""   "
+		ears="$(echo "$ears"|sed 's/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/1/₁/g;s/2/₂/g;s/3/₃/g;s/4/₄/g;s/5/₅/g;s/6/₆/g;s/7/₇/g;s/8/₈/g;s/9/₉/g;s/ //g')""   "
 		ears="${ears:0:3}"
 		NEW_G=$ears
 		reg_history
