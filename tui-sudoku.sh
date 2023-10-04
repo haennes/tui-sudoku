@@ -148,6 +148,8 @@ function win_game ()
 	clear
 	TIMER_STOP="$(date +%s)"
 	SECONDS=$(($TIMER_STOP-$TIMER_START))
+	echo "SECONDS: $SECONDS"
+	read -p "debug" v
 	MINUTES="$(( $SECONDS / 60 ))"
 	SECMLEFT="$(( $SECONDS - $((MINUTES * 60 )) ))"
 	TIME="$MINUTES mins $SECMLEFT secs"
@@ -264,7 +266,7 @@ function check_duplicates ()
 					then
 						MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
 						#X[$(($ROW0+$i))]=${C4}
-						G[ROW0+i]=${G[$(($ROW0+$i))]/$EARMARK/${C4}$EARMARK${C3}} ##################################
+						G[ROW0+i]=${G[$(($ROW0+$i))]/$EARMARK/${C4}$EARMARK${C3}}
 					fi
 					if [[ ${G[$(($ROW0+$i))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($ROW0+$i)) ]]
 					then
@@ -307,7 +309,7 @@ function check_duplicates ()
 					then
 						MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
 #						X[$(($COLUMN0+$i))]=${C4}
-						G[COLUMN0+i]=${G[$(($COLUMN0+$i))]/$EARMARK/${C4}$EARMARK${C3}} ##################################
+						G[COLUMN0+i]=${G[$(($COLUMN0+$i))]/$EARMARK/${C4}$EARMARK${C3}}
 					fi
 					if [[ ${G[$(($COLUMN0+$i))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($COLUMN0+$i)) ]]
 					then
@@ -360,7 +362,7 @@ function check_duplicates ()
 							then
 								MESSAGE="     ${C4}Illegal earmark : $DIGIT    "
 #								X[$(($i+$ii+$iii+$iv))]=${C4}
-						G[i+ii+iii+iv]=${G[$(($i+$ii+$iii+$iv))]/$EARMARK/${C4}$EARMARK${C3}} ##################################
+						G[i+ii+iii+iv]=${G[$(($i+$ii+$iii+$iv))]/$EARMARK/${C4}$EARMARK${C3}}
 							fi
 							if [[ ${G[$(($i+$ii+$iii+$iv))]} == *"$EARMARK"* ]]&&[[ $CURSOR -eq $(($i+$ii+$iii+$iv)) ]]
 							then
@@ -391,6 +393,7 @@ function save_game ()
 	SAVED_TIMER_STOP="$(date +%s)"
 	SAVED_SECONDS=$(($SAVED_TIMER_STOP-$TIMER_START))
 	echo "SAVED_SECONDS $SAVED_SECONDS">> $HOME/.cache/tui-sudoku/saved_games/"$FILE"
+	echo "LEVEL $LEVEL">> $HOME/.cache/tui-sudoku/saved_games/"$FILE"
 }
 
 function load_game ()
@@ -420,7 +423,11 @@ function load_game ()
 	done
 	check_duplicates
 	SAVED_SECONDS="$(grep "SAVED_SECONDS" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
+	LEVEL="$(grep "LEVEL" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
 	TIMER_START=$(($(date +%s)-$SAVED_SECONDS))
+	echo "SAVED_SECONDS: $SAVED_SECONDS"
+	echo "TIMER_START: $TIMER_START"
+	read -p "debug" v
 	clear
 }
 
@@ -559,6 +566,8 @@ function new_game
 		fi
 		echo "${Q:x:1}"" ""${Q:x:1}"" ""${Q:82+x:1}"" ">>$HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
 	done
+	echo "LEVEL $LEVEL">> $HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
+	echo "SAVED_SECONDS 0">> $HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
 	TIMER_START="$(date +%s)"
 	clear
 }
@@ -605,7 +614,7 @@ function play_menu ()
 			;;
 			*)clear;
 		esac
-# if [[ $db = "W" ]];then win_game;fi ## for debugging reasons
+ if [[ $db = "W" ]];then win_game;fi ## for debugging reasons
 	done
 }
 function load_config ()
