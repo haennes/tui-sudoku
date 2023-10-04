@@ -148,8 +148,6 @@ function win_game ()
 	clear
 	TIMER_STOP="$(date +%s)"
 	SECONDS=$(($TIMER_STOP-$TIMER_START))
-	echo "SECONDS: $SECONDS"
-	read -p "debug" v
 	MINUTES="$(( $SECONDS / 60 ))"
 	SECMLEFT="$(( $SECONDS - $((MINUTES * 60 )) ))"
 	TIME="$MINUTES mins $SECMLEFT secs"
@@ -425,9 +423,6 @@ function load_game ()
 	SAVED_SECONDS="$(grep "SAVED_SECONDS" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
 	LEVEL="$(grep "LEVEL" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
 	TIMER_START=$(($(date +%s)-$SAVED_SECONDS))
-	echo "SAVED_SECONDS: $SAVED_SECONDS"
-	echo "TIMER_START: $TIMER_START"
-	read -p "debug" v
 	clear
 }
 
