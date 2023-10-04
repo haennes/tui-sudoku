@@ -614,7 +614,7 @@ function play_menu ()
 			;;
 			*)clear;
 		esac
- if [[ $db = "W" ]];then win_game;fi ## for debugging reasons
+	#if [[ $db = "W" ]];then win_game;fi ## for debugging reasons
 	done
 }
 function load_config ()
