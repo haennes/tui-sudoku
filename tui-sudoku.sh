@@ -440,8 +440,9 @@ function earmark ()
 		NEW_G=$ears
 		reg_history
 		G[CURSOR]="$ears"
-	fi
 	MESSAGE="        ${C5}Earmarked   $ears     ${n}"
+	fi
+
 }
 
 function highlight_on ()
