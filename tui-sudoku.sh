@@ -423,6 +423,9 @@ function load_game ()
 	SAVED_SECONDS="$(grep "SAVED_SECONDS" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
 	LEVEL="$(grep "LEVEL" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
 	TIMER_START=$(($(date +%s)-$SAVED_SECONDS))
+	INDEX=0
+	INFO=0
+	load_info
 	clear
 }
 
