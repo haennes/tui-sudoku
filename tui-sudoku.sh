@@ -41,7 +41,7 @@ function load_info ()
 		INFO_STR[12]=" ├─────────────┼──────────────┤"
 		INFO_STR[13]=" │${C6} z      ${C7}Undo ${C1}│${C6} Z  ${C7}     Redo ${C1}│"
 		INFO_STR[14]=" ├─────────────┼──────────────┤"
-		INFO_STR[15]=" │${C6} Q      ${C7}Quit ${C1}│${C6} M  ${C7}Main Menu ${C1}│"
+		INFO_STR[15]=" │${C6} Q     ${C7}Solve ${C1}│${C6} M  ${C7}Main Menu ${C1}│"
 		INFO_STR[16]=" ├─────────────┴──────────────┤"
 		INFO_STR[17]=" │${MESSAGE:0:40}${C1}│"
 		INFO_STR[18]="${C1} ╰────────────────────────────╯${n}"
@@ -606,7 +606,7 @@ function play_menu ()
 			;;
 			"0") if [[ ${X[$CURSOR]} != *"${C2}"* ]]&&[[ ${X[$CURSOR]} != *"${C5}"* ]]&&[[ ${G[$CURSOR]} != "   " ]];then NEW_G="000";reg_history;G[CURSOR]="   ";check_duplicates;X[CURSOR]="${I}${C3}";MESSAGE="      ${C5}Cleared Cell          ";fi;clear;
 			;;
-			Q) clear;G=("${F0[@]}");high_switch=1;highlight;INFO=1;load_info;INFO_STR[19]="\e[3m${C2}El arte de vencer se aprende en las derrotas\n\t\t\t\t${C2}Simón Bolívar${n}${n}";print_9x9;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Exited tui-sudoku";echo -e "${C6}Press any key to exit${n}";read -sn 1 v;exit;
+			Q) clear;G=("${F0[@]}");high_switch=1;highlight;INFO=1;load_info;INFO_STR[19]="\e[3m${C2}El arte de vencer se aprende en las derrotas\n                                ${C2}Simón Bolívar${n}${n}";print_9x9;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Quit the puzzle...";echo -e "${C6}Press any key to return to the main menu${n}";read -sn 1 v;db="M";clear;
 			;;
 			I) load_info;clear;
 			;;
