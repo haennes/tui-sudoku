@@ -435,7 +435,7 @@ function earmark ()
 	then
 		echo -e "${C6}Enter numbers(max 3 digits):${n}"
 		read ears
-		ears="$(echo "$ears"|sed 's/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/1/₁/g;s/2/₂/g;s/3/₃/g;s/4/₄/g;s/5/₅/g;s/6/₆/g;s/7/₇/g;s/8/₈/g;s/9/₉/g;s/ //g')""   "
+		ears="$(echo "$ears"|sed 's/[[:cntrl:]]//g;s/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/1/₁/g;s/2/₂/g;s/3/₃/g;s/4/₄/g;s/5/₅/g;s/6/₆/g;s/7/₇/g;s/8/₈/g;s/9/₉/g;s/ //g')""   "
 		ears="${ears:0:3}"
 		NEW_G=$ears
 		reg_history
