@@ -435,7 +435,7 @@ function earmark ()
 	then
 		echo -e "${C6}Enter numbers(max 3 digits):${n}"
 		read ears
-		ears="$(echo "$ears"|sed 's/[[:cntrl:]]//g;s/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/1/₁/g;s/2/₂/g;s/3/₃/g;s/4/₄/g;s/5/₅/g;s/6/₆/g;s/7/₇/g;s/8/₈/g;s/9/₉/g;s/ //g')""   "
+		ears="$(echo "$ears"|sed 's/[[:cntrl:]]//g;s/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/1/₁/g;s/2/₂/g;s/3/₃/g;s/4/₄/g;s/5/₅/g;s/6/₆/g;s/7/₇/g;s/8/₈/g;s/9/₉/g;s/ //g'| grep -o . | sort |tr -d "\n")""   "
 		ears="${ears:0:3}"
 		NEW_G=$ears
 		reg_history
@@ -635,7 +635,7 @@ function load_config ()
 	else
 		#DEFAULT VALUES
 		C1="\x1b[38;5;60m" #Grid Color
-		C2="\e[1;33m" #Given Numbers Color
+		C2="\e[38;5;222m" #Given Numbers Color
 		C3="\e[1;36m" #Found Numbers Color
 		C4="\e[1;31m" #Wrong Numbers Color
 		C5="\e[1;32m" #Highlight Color
