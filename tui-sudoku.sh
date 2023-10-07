@@ -636,11 +636,11 @@ function load_config ()
 		#DEFAULT VALUES
 		C1="\x1b[38;5;60m" #Grid Color
 		C2="\e[38;5;222m" #Given Numbers Color
-		C3="\e[1;36m" #Found Numbers Color
-		C4="\e[1;31m" #Wrong Numbers Color
-		C5="\e[1;32m" #Highlight Color
+		C3="\e[38;5;14m" #Found Numbers Color
+		C4="\e[38;5;9m" #Wrong Numbers Color
+		C5="\e[32m" #Highlight Color
 		C6="\e[35m" #TextColor1
-		C7="\e[36m" #TextColor1
+		C7="\e[38;5;14m" #TextColor2
 		PREFERRED_EDITOR="nano"
 		SYMMETRY="rotate90"
 		PREFFERED_PNG="2sudoku.png"
