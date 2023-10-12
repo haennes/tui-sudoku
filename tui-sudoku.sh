@@ -426,15 +426,16 @@ function load_game ()
 {
 	cat /dev/null>$HOME/.cache/tui-sudoku/history.txt
 	clear;
-	echo -e "${C1}╭─────────────────────────────╮\n│${C7} Select number for a file:  ${C1} │\n├─────────────────────────────┤"
+	echo -e "${C1}╭────────────────────────────────╮\n│${C7} Select number for a file:  ${C1}    │\n├────────────────────────────────┤"
 	SAVED_GAMES=$(ls -1 ~/.cache/tui-sudoku/saved_games|wc -l)
 	x=1
 	while [[ $x -le $SAVED_GAMES ]]
 	do
-		echo -e "${C1}│${C6} $x ${C7} $(ls -1 ~/.cache/tui-sudoku/saved_games/|head -$x|tail +$x)  ${C1}│"
+		FILE_STRING="${C1}│${C6} $x ${C7} $(ls -1 ~/.cache/tui-sudoku/saved_games/|head -$x|tail +$x)${C1}        "
+		echo -e "${FILE_STRING:0:72}│"
 		((x++))
 	done
-	echo -e "╰─────────────────────────────╯${n}"
+	echo -e "╰────────────────────────────────╯${n}"
 	echo -e "${C7}Input number ${C6}(1-$SAVED_GAMES):${n}"
 	read FILENUMBER
 	FILENUMBER="$(echo "$FILENUMBER"|sed 's/[[:cntrl:]]//g;s/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/ //g')"
