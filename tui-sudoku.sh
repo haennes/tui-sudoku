@@ -204,7 +204,35 @@ function main_menu ()
 
 function enter_level ()
 {
-	LEVEL="$(echo -e "simple\neasy\nintermediate\nexpert"|fzf --disabled --cycle --info=hidden --reverse +i +m --color='gutter:-1' --ansi  --preview-window=left,30%,border-none --prompt="Select game difficulty:" --preview='echo -e "\n${C2}     ╭───╮${C1}╭───╮╭───╮\n${C2}     │ L │${C1}│   ││   │\n${C2}     ╰───╯${C1}╰───╯╰───╯\n${C2}     ╭───╮╭───╮${C1}╭───╮\n${C2}     │ E ││ V │${C1}│   │\n${C2}     ╰───╯╰───╯${C1}╰───╯\n${C1}     ╭───╮${C2}╭───╮╭───╮\n${C1}     │   │${C2}│ E ││ L │\n${C1}     ╰───╯${C2}╰───╯╰───╯\n"')"
+	LEVEL=""
+	el=""
+	while [[ "$el" != "ok" ]]
+	do
+		echo -e "${C2}     ╭───╮${C1}╭───╮╭───╮        ╭──────────────────────────╮"
+		echo -e "${C2}     │ L │${C1}│   ││   │        │${C6} 1             ${n}${C7}   Simple  ${C1}│"
+		echo -e "${C2}     ╰───╯${C1}╰───╯╰───╯        ├──────────────────────────┤"
+		echo -e "${C2}     ╭───╮╭───╮${C1}╭───╮        │${C6} 2                 ${n}${C7} Easy  ${C1}│"
+		echo -e "${C2}     │ E ││ V │${C1}│   │        ├──────────────────────────┤"
+		echo -e "${C2}     ╰───╯╰───╯${C1}╰───╯        │${C6} 3         ${n}${C7} Intermediate  ${C1}│"
+		echo -e "${C1}     ╭───╮${C2}╭───╮╭───╮        ${C1}├──────────────────────────┤"
+		echo -e "${C1}     │   │${C2}│ E ││ L │        ${C1}│${C6} 4                ${n}${C7}Expert  ${C1}│"
+		echo -e "${C1}     ╰───╯${C2}╰───╯╰───╯        ${C1}╰──────────────────────────╯${n}"
+		read -sn 1 el
+		case $el in
+			1) LEVEL="simple";el="ok";clear;
+			;;
+			2) LEVEL="easy";el="ok";clear;
+			;;
+			3) LEVEL="intermediate";el="ok";clear;
+			;;
+			4) LEVEL="expert";el="ok";clear;
+			;;
+			*)clear;
+		esac
+	done
+
+
+#	LEVEL="$(echo -e "simple\neasy\nintermediate\nexpert"|fzf --disabled --cycle --info=hidden --reverse +i +m --color='gutter:-1' --ansi  --preview-window=left,30%,border-none --prompt="Select game difficulty:" --preview='echo -e "\n${C2}     ╭───╮${C1}╭───╮╭───╮\n${C2}     │ L │${C1}│   ││   │\n${C2}     ╰───╯${C1}╰───╯╰───╯\n${C2}     ╭───╮╭───╮${C1}╭───╮\n${C2}     │ E ││ V │${C1}│   │\n${C2}     ╰───╯╰───╯${C1}╰───╯\n${C1}     ╭───╮${C2}╭───╮╭───╮\n${C1}     │   │${C2}│ E ││ L │\n${C1}     ╰───╯${C2}╰───╯╰───╯\n"')"
 
 }
 
@@ -397,10 +425,22 @@ function save_game ()
 function load_game ()
 {
 	cat /dev/null>$HOME/.cache/tui-sudoku/history.txt
-	cd $HOME/.cache/tui-sudoku/saved_games/
-	LOAD="$(ls *sdk|fzf --disabled --info=hidden --cycle --reverse +i +m --color='gutter:-1' --ansi  --preview-window=left,30%,border-none --prompt="Select game to load:" --preview='echo -e "\n${C2}""     ╭───╮"${C1}"╭───╮╭───╮\n"${C2}"     │ L │"${C1}"│   ││   │\n"${C2}"     ╰───╯"${C1}"╰───╯╰───╯\n     ╭───╮"${C2}"╭───╮╭───╮\n"${C1}"     │   │"${C2}"│ O ││ A │\n"${C1}"     ╰───╯"${C2}"╰───╯╰───╯\n"${C1}"     ╭───╮╭───╮"${C2}"╭───╮\n"${C1}"     │   ││   │"${C2}"│ D │\n"${C1}"     ╰───╯╰───╯"${C2}"╰───╯";')"
-	cd -
-
+	clear;
+	echo -e "${C1}╭─────────────────────────────╮\n│${C7} Select number for a file:  ${C1} │\n├─────────────────────────────┤"
+	SAVED_GAMES=$(ls -1 ~/.cache/tui-sudoku/saved_games|wc -l)
+	x=1
+	while [[ $x -le $SAVED_GAMES ]]
+	do
+		echo -e "${C1}│${C6} $x ${C7} $(ls -1 ~/.cache/tui-sudoku/saved_games/|head -$x|tail +$x)  ${C1}│"
+		((x++))
+	done
+	echo -e "╰─────────────────────────────╯${n}"
+	echo -e "${C7}Input number ${C6}(1-$SAVED_GAMES):${n}"
+	read FILENUMBER
+	FILENUMBER="$(echo "$FILENUMBER"|sed 's/[[:cntrl:]]//g;s/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/ //g')"
+	LOAD=$(ls -1 ~/.cache/tui-sudoku/saved_games|awk '{print NR" "$0}'|grep -E ^"$FILENUMBER"|awk '{print $2}')
+	#if there is no file respective to the input, the Last Game Generated is selected
+	if [[ ! -f ~/.cache/tui-sudoku/saved_games/$LOAD ]];then LOAD="Last_Game_Generated.sdk";fi
 	LINE=1
 	while [[ "$LINE" -le 81 ]]
 	do
@@ -545,7 +585,7 @@ function mv_cursor ()
 function new_game
 {
 	MESSAGE="          ${C5}GOOD LUCK!        "
-	cat /dev/null>$HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
+	cat /dev/null>$HOME/.cache/tui-sudoku/saved_games/Last_Game_Generated.sdk
 	cat /dev/null>$HOME/.cache/tui-sudoku/history.txt
 	INDEX=0
 	INFO=0
@@ -563,10 +603,10 @@ function new_game
 		else
 			X[x]="${C2}"
 		fi
-		echo "${Q:x:1}"" ""${Q:x:1}"" ""${Q:82+x:1}"" ">>$HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
+		echo "${Q:x:1}"" ""${Q:x:1}"" ""${Q:82+x:1}"" ">>$HOME/.cache/tui-sudoku/saved_games/Last_Game_Generated.sdk
 	done
-	echo "LEVEL $LEVEL">> $HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
-	echo "SAVED_SECONDS 0">> $HOME/.cache/tui-sudoku/saved_games/Last_Game.sdk
+	echo "LEVEL $LEVEL">> $HOME/.cache/tui-sudoku/saved_games/Last_Game_Generated.sdk
+	echo "SAVED_SECONDS 0">> $HOME/.cache/tui-sudoku/saved_games/Last_Game_Generated.sdk
 	TIMER_START="$(date +%s)"
 	clear
 }

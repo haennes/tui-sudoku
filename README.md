@@ -145,14 +145,12 @@ _none, rotate90, rotate180, mirror, flip, or random_
 
 - [qqwing](https://qqwing.com/download.html) is the main dependency of this program, as it is the command line sudoku generator.
 
-- [fzf](https://github.com/junegunn/fzf) is used in `Load` and `Level` selection functions.
-
 - [lolcat](https://github.com/busyloop/lolcat) is used to give more color to the `Top Ten` presentation.
 
 In Debian based OSs, in order to install these dependencies:
 
 ```
-sudo apt install qqwing fzf lolcat
+sudo apt install qqwing lolcat
 ```
 
 ---
