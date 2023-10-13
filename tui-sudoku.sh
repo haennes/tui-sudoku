@@ -189,7 +189,7 @@ function main_menu ()
 		case $mm in
 			n) clear;enter_level;new_game;play_menu;
 			;;
-			l) load_game;MESSAGE="        ${C5}Game Loaded         ";play_menu;
+			l) load_game;
 			;;
 			c) clear;notify-send -t 5000 -i $HOME/.cache/tui-sudoku/png/"$PREFFERED_PNG" "Configuring tui-sudoku"&eval $PREFERRED_EDITOR $HOME/.config/tui-sudoku/tui-sudoku.config;load_config
 			;;
@@ -426,47 +426,76 @@ function load_game ()
 {
 	cat /dev/null>$HOME/.cache/tui-sudoku/history.txt
 	clear;
-	echo -e "${C1}╭────────────────────────────────╮\n│${C7} Select number for a file:  ${C1}    │\n├────────────────────────────────┤"
 	SAVED_GAMES=$(ls -1 ~/.cache/tui-sudoku/saved_games|wc -l)
-	x=1
-	while [[ $x -le $SAVED_GAMES ]]
-	do
-		FILE_STRING="${C1}│${C6} $x ${C7} $(ls -1 ~/.cache/tui-sudoku/saved_games/|head -$x|tail +$x)${C1}        "
-		echo -e "${FILE_STRING:0:72}│"
-		((x++))
-	done
-	echo -e "╰────────────────────────────────╯${n}"
-	echo -e "${C7}Input number ${C6}(1-$SAVED_GAMES):${n}"
-	read FILENUMBER
-	FILENUMBER="$(echo "$FILENUMBER"|sed 's/[[:cntrl:]]//g;s/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/ //g')"
-	LOAD=$(ls -1 ~/.cache/tui-sudoku/saved_games|awk '{print NR" "$0}'|grep -E ^"$FILENUMBER"|awk '{print $2}')
-	#if there is no file respective to the input, the Last Game Generated is selected
-	if [[ ! -f ~/.cache/tui-sudoku/saved_games/$LOAD ]];then LOAD="Last_Game_Generated.sdk";fi
-	LINE=1
-	while [[ "$LINE" -le 81 ]]
-	do
-		G[$((LINE-1))]="$(head -$LINE $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|tail +$LINE|awk '{print $1}'|sed 's/0//g')"
-		if [[ ${#G[$((LINE-1))]} -eq 0 ]]; then G[$((LINE-1))]="   "
-		elif [[ ${#G[$((LINE-1))]} -eq 1 ]]; then G[$((LINE-1))]=" ""${G[$((LINE-1))]}"" "
-		elif [[ ${#G[$((LINE-1))]} -eq 2 ]]; then G[$((LINE-1))]="${G[$((LINE-1))]}"" "
-		elif [[ ${#G[$((LINE-1))]} -eq 3 ]]; then G[$((LINE-1))]="${G[$((LINE-1))]}";fi
-		F[$((LINE-1))]=" ""$(head -$LINE $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|tail +$LINE|awk '{print $2}')"" "
-		F0[$((LINE-1))]=" ""$(head -$LINE $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|tail +$LINE|awk '{print $3}')"" "
-		if [[ ${F[$((LINE-1))]} == " 0 " ]]
+	if [[ $SAVED_GAMES -eq 0 ]]
+	then
+		echo -e " ${C7}There are ${C4} NO games saved.\n ${C1}Press any key to return.${n}"
+		read -sn 1 v
+	else
+
+		echo -e "${C2}     ╭───╮${C1}╭───╮╭───╮        ${C1}╭────────────────────────────────╮\n${C2}     │ L │${C1}│   ││   │        │${C7} Select number for a file:  ${C1}    │\n${C2}     ╰───╯${C1}╰───╯╰───╯        ├────────────────────────────────┤"
+		LOAD_PRINT=( "${C2}     ╭───╮${C1}╭───╮╭───╮        "  "${C2}     │ O │${C1}│   ││   │        " "${C2}     ╰───╯${C1}╰───╯╰───╯        " "${C1}     ╭───╮${C2}╭───╮╭───╮${C1}        " "${C1}     │   │${C2}│ A ││ D │${C1}        " "${C1}     ╰───╯${C2}╰───╯╰───╯${C1}        " )
+		x=0
+		while [[ $x -lt 6 ]]
+		do
+			if [[ $(($x+1)) -le $SAVED_GAMES ]]
+			then
+				FILE_STRING="${C1}│${C6} $(($x+1)) ${C7} $(ls -1 ~/.cache/tui-sudoku/saved_games/|head -$(($x+1))|tail +$(($x+1)))${C1}        "
+				echo -e "${LOAD_PRINT[x]}${FILE_STRING:0:72}│"
+			elif [[ $x -eq $SAVED_GAMES ]]
+			then
+				FILE_STRING="╰────────────────────────────────╯${n}"
+				echo -e "${LOAD_PRINT[x]}$FILE_STRING"
+				else
+				echo -e "${LOAD_PRINT[x]}"
+			fi
+			((x++))
+		done
+		if [[ $SAVED_GAMES -gt 6 ]]
 		then
-			X[$((LINE-1))]="${C3}"
-		else
-			X[$((LINE-1))]="${C2}"
+			while [[ $x -lt $SAVED_GAMES ]]
+			do
+				FILE_STRING="${C1}│${C6} $(($x+1)) ${C7} $(ls -1 ~/.cache/tui-sudoku/saved_games/|head -$(($x+1))|tail +$(($x+1)))${C1}        "
+				echo -e "                            ${FILE_STRING:0:72}│"
+				((x++))
+			done
+			echo -e "                            ╰────────────────────────────────╯${n}"
 		fi
-		((LINE++))
-	done
-	check_duplicates
-	SAVED_SECONDS="$(grep "SAVED_SECONDS" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
-	LEVEL="$(grep "LEVEL" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
-	TIMER_START=$(($(date +%s)-$SAVED_SECONDS))
-	INDEX=0
-	INFO=0
-	load_info
+		echo -e "${C7}Input number ${C6}(1-$SAVED_GAMES):${n}"
+		read FILENUMBER
+		FILENUMBER="$(echo "$FILENUMBER"|sed 's/[[:cntrl:]]//g;s/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/ //g')"
+		LOAD=$(ls -1 ~/.cache/tui-sudoku/saved_games|awk '{print NR" "$0}'|grep -E ^"$FILENUMBER"|awk '{print $2}')
+		#if there is no file respective to the input, the Last Game Generated is selected
+		if [[ ! -f ~/.cache/tui-sudoku/saved_games/$LOAD ]];then LOAD="Last_Game_Generated.sdk";fi
+		LINE=1
+		while [[ "$LINE" -le 81 ]]
+		do
+			G[$((LINE-1))]="$(head -$LINE $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|tail +$LINE|awk '{print $1}'|sed 's/0//g')"
+			if [[ ${#G[$((LINE-1))]} -eq 0 ]]; then G[$((LINE-1))]="   "
+			elif [[ ${#G[$((LINE-1))]} -eq 1 ]]; then G[$((LINE-1))]=" ""${G[$((LINE-1))]}"" "
+			elif [[ ${#G[$((LINE-1))]} -eq 2 ]]; then G[$((LINE-1))]="${G[$((LINE-1))]}"" "
+			elif [[ ${#G[$((LINE-1))]} -eq 3 ]]; then G[$((LINE-1))]="${G[$((LINE-1))]}";fi
+			F[$((LINE-1))]=" ""$(head -$LINE $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|tail +$LINE|awk '{print $2}')"" "
+			F0[$((LINE-1))]=" ""$(head -$LINE $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|tail +$LINE|awk '{print $3}')"" "
+			if [[ ${F[$((LINE-1))]} == " 0 " ]]
+			then
+				X[$((LINE-1))]="${C3}"
+			else
+				X[$((LINE-1))]="${C2}"
+			fi
+			((LINE++))
+		done
+		check_duplicates
+		SAVED_SECONDS="$(grep "SAVED_SECONDS" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
+		LEVEL="$(grep "LEVEL" $HOME/.cache/tui-sudoku/saved_games/"$LOAD"|awk '{print $2}')"
+		TIMER_START=$(($(date +%s)-$SAVED_SECONDS))
+		INDEX=0
+		INFO=0
+		load_info
+		MESSAGE="        ${C5}Game Loaded         "
+		clear
+		play_menu;
+	fi
 	clear
 }
 
