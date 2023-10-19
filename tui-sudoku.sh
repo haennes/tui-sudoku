@@ -33,7 +33,7 @@ function load_info ()
 		INFO_STR[4]=" ├────────────────────────────┤"
 		INFO_STR[5]=" │${C6} 0 ␣ ␈       ${C7} Delete Number ${C1}│"
 		INFO_STR[6]=" ├────────────────────────────┤"
-		INFO_STR[7]=" │${C6} E                 ${C7} Earmark ${C1}│"
+		INFO_STR[7]=" │${C6} E Shift+[1-9]     ${C7} Earmark ${C1}│"
 		INFO_STR[8]=" ├─────────────┬──────────────┤"
 		INFO_STR[9]=" │${C6} H ${C7}Highlight ${C1}│${C6} P     ${C7} Pause ${C1}│"
 		INFO_STR[10]=" ├─────────────┼──────────────┤"
@@ -506,13 +506,31 @@ function earmark ()
 		echo -e "${C6}Enter numbers(max 3 digits):${n}"
 		read ears
 		ears="$(echo "$ears"|sed 's/[[:cntrl:]]//g;s/[a-z]//g;s/[A-Z]//g;s/[[:punct:]]//g;s/1/₁/g;s/2/₂/g;s/3/₃/g;s/4/₄/g;s/5/₅/g;s/6/₆/g;s/7/₇/g;s/8/₈/g;s/9/₉/g;s/ //g'| grep -o . | sort |tr -d "\n")""   "
-		ears="${ears:0:3}"
-		NEW_G=$ears
-		reg_history
-		G[CURSOR]="$ears"
-	MESSAGE="        ${C5}Earmarked   $ears     ${n}"
+		EARS="${ears:0:3}"
+		earmark_set
 	fi
+}
 
+function fast_earmark () {
+	if [[ ${F[$CURSOR]} == " 0 " ]]
+	then
+		local curr_ears="$(echo "${G[CURSOR]}"| sed -r 's/\\e\[[0-9]+;[0-9]+;[0-9]+[a-z]+//g;s/ //g;s/[1-9]//g')"
+		if [[ ! $curr_ears =~ $1 ]]
+		then
+			curr_ears+=$1
+		fi
+		local spaces="   "
+		curr_ears=$(echo "${curr_ears:${#curr_ears}<3?0: -3}"| grep -o . | sort |tr -d "\n")
+		EARS="$curr_ears${spaces:0:$((3-${#curr_ears}))}"
+		earmark_set
+	fi
+}
+
+function earmark_set () {
+	NEW_G=$EARS
+	reg_history
+	G[CURSOR]="$EARS"
+	MESSAGE="        ${C5}Earmarked   $EARS     ${n}"
 }
 
 function highlight_on ()
@@ -664,6 +682,24 @@ function play_menu ()
 			[1-9]) if [[ "${F[CURSOR]}" == " 0 " ]];then NEW_G="0""$db""0";reg_history;G[CURSOR]=" ""$db"" ";MESSAGE="     ${C5}Entered number : $db     ";check_duplicates;fi;clear;
 			;;
 			E) earmark;check_duplicates;clear;
+			;;
+			!) fast_earmark "₁";check_duplicates;clear;
+			;;
+			@) fast_earmark "₂";check_duplicates;clear;
+			;;
+			\# )fast_earmark "₃";check_duplicates;clear;
+			;;
+			$) fast_earmark "₄";check_duplicates;clear;
+			;;
+			%) fast_earmark "₅";check_duplicates;clear;
+			;;
+			^) fast_earmark "₆";check_duplicates;clear;
+			;;
+			\&) fast_earmark "₇";check_duplicates;clear;
+			;;
+			\*) fast_earmark "₈";check_duplicates;clear;
+			;;
+			['(']) fast_earmark "₉";check_duplicates;clear;
 			;;
 			H) highlight;
 			;;
