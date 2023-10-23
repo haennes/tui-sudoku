@@ -27,7 +27,7 @@ function load_info ()
 	if [[ $INFO -eq 0 ]]
 	then
 		INFO_STR[0]=" ╭────────────────────────────╮"
-		INFO_STR[1]=" │${C6} hjkl 🠄 🠅🠇🠆    ${C7} Move Cursor ${C1}│"
+		INFO_STR[1]=" │${C6} hjkl 🠄 🠇🠅🠆    ${C7} Move Cursor ${C1}│"
 		INFO_STR[2]=" ├────────────────────────────┤"
 		INFO_STR[3]=" │${C6} [1-9]       ${C7} Insert Number ${C1}│"
 		INFO_STR[4]=" ├────────────────────────────┤"
@@ -653,9 +653,9 @@ function play_menu ()
 		read -sn 1 db
 		if [[ $(echo "$db" | od) = "$backspace" ]]||[[ $(echo "$db" | od) = "$space" ]];then  db="0";fi;
 		case $db in
-			[j,A]) if  [[ $CURSOR -gt "8" ]]; then NEW_CURSOR=$((CURSOR-9));mv_cursor;fi;clear;
+			[k,A]) if  [[ $CURSOR -gt "8" ]]; then NEW_CURSOR=$((CURSOR-9));mv_cursor;fi;clear;
 			;;
-			[k,B]) if  [[ $CURSOR -le "71" ]]; then NEW_CURSOR=$((CURSOR+9));mv_cursor;fi;clear;
+			[j,B]) if  [[ $CURSOR -le "71" ]]; then NEW_CURSOR=$((CURSOR+9));mv_cursor;fi;clear;
 			;;
 			[l,C]) if  [[ $CURSOR != "80" ]]; then NEW_CURSOR=$(($CURSOR+1));mv_cursor;fi;clear;
 			;;
