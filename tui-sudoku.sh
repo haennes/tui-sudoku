@@ -102,6 +102,7 @@ function undo_redo ()
 
 function reg_history ()
 {
+	NEW_G=${NEW_G// /0}
 	if [[ $INDEX -gt 0 ]]
 	then
 		head -n -$(($INDEX+1))  $HOME/.cache/tui-sudoku/history.txt > $HOME/.cache/tui-sudoku/history_tmp.txt && mv $HOME/.cache/tui-sudoku/history_tmp.txt $HOME/.cache/tui-sudoku/history.txt
