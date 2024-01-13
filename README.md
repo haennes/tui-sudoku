@@ -39,7 +39,7 @@ Using the shortcuts in the shown cheatsheet table, the player can
 |  hjkl 🠄 🠅🠇🠆    | Move Cursor    |
 | [1-9]    | Insert Number    |
 |0,␣<space\>,␈<backspace\>       |Clear Cell     |
-|  E   | Earmark cells|
+|  E  , or Shift+[1-9]| Earmark cells|
 |H|Toggle Highlight Numbers|
 |I|Toggle show Info (key cheatsheet)|
 |P|Pause Game
