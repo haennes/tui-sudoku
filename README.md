@@ -58,7 +58,7 @@ Using the shortcuts in the shown cheatsheet table, the player can
 
     ![4.png](screenshots/4.png)
 
-- Typing `E` and entering up to 3 digits, will **earmark the cell**:
+- Typing `E` and entering up to 3 digits, or entering `Shift`+<number\> will **earmark the cell**:
 
      ![5.png](screenshots/5.png)
 
