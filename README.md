@@ -9,7 +9,7 @@ tui-sudoku is a **configurable terminal interface sudoku game**, with quite a fe
 Starting the game, and through the **main menu**,
 the player can :
 
-- Start a new game 
+- Start a new game
 
 - Load previously saved game
 
@@ -162,28 +162,23 @@ Clone the repo, and change directory into the program's directory:
 git clone https://gitlab.com/christosangel/tui-sudoku
 cd tui-sudoku/
 ```
-The following commands will make the shell script executable, and copy it to the `$PATH`:
+Make the `install.sh` script executable:
 ```
-chmod +x tui-sudoku.sh
-cp tui-sudoku.sh  ~/.local/bin/
-```
-Create the necessary directories:
+chmod +x install.sh
 
 ```
-
-mkdir -p ~/.config/tui-sudoku/ ~/.cache/tui-sudoku/saved_games/
-mkdir -p  ~/.cache/tui-sudoku/png/
-cp tui-sudoku.config ~/.config/tui-sudoku/tui-sudoku.config
-touch ~/.cache/tui-sudoku/history.txt ~/.cache/tui-sudoku/hiscores.txt
-cp -r png/ ~/.cache/tui-sudoku/
+Run `install.sh`:
 
 ```
+./install.sh
+```
+You are ready to go.
 
 ---
 
 ## RUN
 
-Since `tui-sudoku.sh` is copied in the `$PATH`:
+
 
 - Open a terminal window, and **adjust the font size to your liking, using `Ctrl` `Shift` `+` or `Ctrl`  `-`**
 
