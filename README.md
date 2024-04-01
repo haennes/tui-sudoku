@@ -182,10 +182,17 @@ You are ready to go.
 
 - Open a terminal window, and **adjust the font size to your liking, using `Ctrl` `Shift` `+` or `Ctrl`  `-`**
 
-- run:
+- From the `tui-sudoku/` directory, run:
+
+```
+./tui-sudoku.sh
+```
+
+If in your system the directory `~/.local/bin` exists, and it is added to the`$PATH`, you can run:
 
 ```
 tui-sudoku.sh
 ```
+
 
 ___Have fun!___
