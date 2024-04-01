@@ -162,16 +162,11 @@ Clone the repo, and change directory into the program's directory:
 git clone https://gitlab.com/christosangel/tui-sudoku
 cd tui-sudoku/
 ```
-Make the `install.sh` script executable:
+Make the `install.sh` script executable and run it:
 ```
-chmod +x install.sh
+chmod +x install.sh&&./install.sh
+```
 
-```
-Run `install.sh`:
-
-```
-./install.sh
-```
 You are ready to go.
 
 ---
