@@ -1,4 +1,4 @@
-#! /bin/bash
+##! /bin/bash
 #  ╭───╮╭───╮╭───╮ a program written in
 #  │ S ││   ││   │ bash by
 #  ╰───╯╰───╯╰───╯ Christos Angelopoulos
